@@ -11,7 +11,7 @@ interface IControlsProps {
   addToPlaylist: (source: string) => void;
 }
 
-export default function Controls({ playlist, selected, changeSource, addToPlaylist }: IControlsProps) {
+function Controls({ playlist, selected, changeSource, addToPlaylist }: IControlsProps) {
   const handleActiveChange = (src: string) => {
     changeSource(src);
   };
@@ -28,3 +28,5 @@ export default function Controls({ playlist, selected, changeSource, addToPlayli
     </div>
   );
 }
+
+export default Controls;

@@ -10,8 +10,7 @@ import "video.js/dist/video-js.css";
 interface IProfileProps {
   roomId: string;
 }
-
-const Profile = ({ roomId }: IProfileProps) => {
+function Profile({ roomId }: IProfileProps) {
   const [playlist, setPlaylist] = useState<string[]>([]);
   const [videoSource, setVideoSource] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
@@ -38,6 +37,6 @@ const Profile = ({ roomId }: IProfileProps) => {
       <Chat chatHistory={chatHistory} />
     </section>
   );
-};
+}
 
 export default Profile;

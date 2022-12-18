@@ -7,7 +7,7 @@ interface IAddVideoProps {
   add: (source: string) => void;
 }
 
-export default function AddVideo({ add }: IAddVideoProps) {
+function AddVideo({ add }: IAddVideoProps) {
   const [videoUrl, setVideoUrl] = useState("");
 
   const handleVideoUrlChange = (evt: h.JSX.TargetedEvent<HTMLInputElement>) => {
@@ -34,3 +34,5 @@ export default function AddVideo({ add }: IAddVideoProps) {
     </form>
   );
 }
+
+export default AddVideo;

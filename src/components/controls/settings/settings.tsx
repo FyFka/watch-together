@@ -1,7 +1,7 @@
 import { h } from "preact";
 import styles from "./settings.styles.css";
 
-export default function Settings() {
+function Settings() {
   return (
     <div className={styles.settings}>
       <h3>Settings</h3>
@@ -9,3 +9,5 @@ export default function Settings() {
     </div>
   );
 }
+
+export default Settings;

@@ -8,7 +8,7 @@ interface IPlaylistProps {
   onActiveChange: (video: string) => void;
 }
 
-export default function Playlist({ playlist, selected, onActiveChange }: IPlaylistProps) {
+function Playlist({ playlist, selected, onActiveChange }: IPlaylistProps) {
   return (
     <div className={styles.playlist}>
       <h3 className={styles.title}>Playlist</h3>
@@ -33,3 +33,5 @@ export default function Playlist({ playlist, selected, onActiveChange }: IPlayli
     </div>
   );
 }
+
+export default Playlist;

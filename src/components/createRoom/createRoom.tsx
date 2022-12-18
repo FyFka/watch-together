@@ -1,19 +1,16 @@
 import { h } from "preact";
 import { route } from "preact-router";
 import { useState } from "preact/compat";
+import { createRoom } from "../../api/room";
 import Button from "../button/button";
 import styles from "./createRoom.styles.css";
 
-export default function CreateRoom() {
+function CreateRoom() {
   const [loading, setLoading] = useState(false);
 
   const handleCreateRoom = async () => {
     setLoading(true);
-    const room = (await new Promise((res) => {
-      setTimeout(() => {
-        res({ payload: { id: "123" }, message: "Room created" });
-      }, 1000);
-    })) as { payload: { id: string }; message: string };
+    const room = await createRoom();
     setLoading(false);
     if (room.payload) {
       route(`/room/${room.payload.id}`);
@@ -28,3 +25,5 @@ export default function CreateRoom() {
     </Button>
   );
 }
+
+export default CreateRoom;
