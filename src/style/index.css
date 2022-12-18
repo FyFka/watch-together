@@ -65,10 +65,6 @@ input {
   overflow: auto;
 }
 
-[data-nextjs-scroll-focus-boundary] {
-  display: contents;
-}
-
 *::-webkit-scrollbar {
   width: 0.35rem;
   height: 0.35rem;

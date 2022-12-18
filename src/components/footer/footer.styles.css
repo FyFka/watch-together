@@ -1,0 +1,10 @@
+.connectionId {
+  user-select: none;
+  pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: #3c3c3c;
+}
