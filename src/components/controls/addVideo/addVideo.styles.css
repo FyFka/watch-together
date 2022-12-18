@@ -1,0 +1,28 @@
+.addVideo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background-color: #202020;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.field {
+  flex: 5;
+  width: 100%;
+  background-color: #0f0f0f;
+  border: 1px solid #21262d;
+  padding: 1rem;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+}
+
+.submit {
+  flex: 1;
+  min-width: 3rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}

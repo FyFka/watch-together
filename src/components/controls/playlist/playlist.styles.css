@@ -1,0 +1,36 @@
+.playlist {
+  background-color: #202020;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.video {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.video > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty {
+  text-align: center;
+  margin: 0.5rem 0;
+  color: #ababab;
+}

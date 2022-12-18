@@ -1,0 +1,11 @@
+.player {
+  background-color: #181818;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.htmlPlayer {
+  height: 100%;
+  width: 100%;
+}

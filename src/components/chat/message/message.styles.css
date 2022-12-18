@@ -1,0 +1,35 @@
+.message {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  cursor: default;
+}
+
+.avatar {
+  position: relative;
+  min-width: 2.5rem;
+  width: 2.5rem;
+  min-height: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+  overflow: hidden;
+  transition: transform 0.1s ease-in-out;
+}
+
+.avatar:active {
+  transform: translateY(0.25rem);
+}
+
+.userMessage {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.info {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.time {
+  color: #8f8f8f;
+}
