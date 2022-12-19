@@ -16,7 +16,9 @@ app.get("*", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  socket.on("room::send:create", () => {
+    socket.emit("room::get::create", { payload: { id: "123" } });
+  });
 });
 
 server.listen(config.PORT, () => {
