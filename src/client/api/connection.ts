@@ -1,15 +1,26 @@
 import io, { Socket } from "socket.io-client";
+import { getFromLocalStorage } from "../utils/localStorage";
 
-export const _socket = io(process.env.PREACT_DEV_API_URL || "");
+const connect = (token: string | null) => {
+  return io(process.env.PREACT_DEV_API_URL || "", { auth: { token } });
+};
+
+export let socket = connect(getFromLocalStorage<string>("token"));
 
 export const subscribeToConnection = (callback: (connectionId: string) => void) => {
-  _socket.on("connect", () => callback(_socket.id));
-  _socket.on("disconnect", () => callback(""));
-  _socket.on("reconnect", (socket: Socket) => callback(socket.id));
+  socket.on("connect", () => callback(socket.id));
+  socket.on("disconnect", () => callback(""));
+  socket.on("reconnect", (socket: Socket) => callback(socket.id));
 };
 
 export const unsubscribeFromConnection = () => {
-  _socket.off("connection");
-  _socket.off("disconnect");
-  _socket.off("reconnect");
+  socket.off("connection");
+  socket.off("disconnect");
+  socket.off("reconnect");
+};
+
+export const reconnect = (token: string | null) => {
+  socket.disconnect();
+  socket.auth = { token };
+  socket.connect();
 };

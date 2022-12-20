@@ -1,0 +1,26 @@
+.miniProfile {
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0;
+  background-color: transparent;
+  transition: transform 0.1s ease-in-out;
+  border-radius: 100%;
+}
+
+.miniProfile:active {
+  transform: translateY(0.15rem);
+}
+
+.avatar {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+}
+
+.emptyAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+  background-color: #9e9e9e;
+}

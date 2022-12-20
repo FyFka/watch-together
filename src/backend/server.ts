@@ -1,23 +1,43 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
+import compression from "compression";
 import config from "./config";
 import path from "path";
+import { handleCreateRoom } from "./handlers/room";
+import { authMiddleware } from "./middlewares/auth";
+import { handleFullAccount } from "./handlers/account";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
 app.disable("x-powered-by");
-app.use(express.static(path.join(__dirname, "..", "client")));
+app.use(compression());
 
-app.get("*", (req, res) => {
+app.use(
+  express.static(path.join(__dirname, "..", "client"), {
+    maxAge: "7d",
+    index: false,
+    setHeaders: (res, _) => {
+      if (res.req.path === "/sw.js") {
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      }
+    },
+  })
+);
+
+app.get("*", (_, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
+io.use(authMiddleware);
 io.on("connection", (socket) => {
-  socket.on("room::send:create", () => {
-    socket.emit("room::get::create", { payload: { id: "123" } });
+  socket.on("room::send:create", async () => {
+    socket.emit("room::get:create", await handleCreateRoom());
+  });
+  socket.on("account::send:account-full", async () => {
+    socket.emit("account::get:account-full", await handleFullAccount(socket));
   });
 });
 

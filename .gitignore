@@ -2,3 +2,9 @@ node_modules
 build
 /*.log
 size-plugin.json
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
