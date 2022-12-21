@@ -1,4 +1,4 @@
-import { IResponse } from "../types/Response";
+import { IResponse } from "../../shared/Response";
 import { socket } from "./connection";
 
 export const createRoom = () => {

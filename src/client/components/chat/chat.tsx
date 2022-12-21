@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { IMessage } from "../../types/Room";
+import { IMessage } from "../../../shared/Room";
 import { memo, useState } from "preact/compat";
 import Message from "./message/message";
 import styles from "./chat.styles.css";

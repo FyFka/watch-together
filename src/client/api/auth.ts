@@ -1,5 +1,5 @@
-import { IExtendedAccount } from "../types/Account";
-import { IResponse } from "../types/Response";
+import { IExtendedAccount } from "../../shared/Account";
+import { IResponse } from "../../shared/Response";
 import { socket } from "./connection";
 
 export const subscribeToNewAccount = (callback: (res: IResponse<IExtendedAccount>) => void) => {

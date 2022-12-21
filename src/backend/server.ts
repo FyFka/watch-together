@@ -6,7 +6,7 @@ import config from "./config";
 import path from "path";
 import { handleCreateRoom } from "./handlers/room";
 import { authMiddleware } from "./middlewares/auth";
-import { handleFullAccount } from "./handlers/account";
+import { handleAccount } from "./handlers/account";
 
 const app = express();
 const server = http.createServer(app);
@@ -36,8 +36,8 @@ io.on("connection", (socket) => {
   socket.on("room::send:create", async () => {
     socket.emit("room::get:create", await handleCreateRoom());
   });
-  socket.on("account::send:account-full", async () => {
-    socket.emit("account::get:account-full", await handleFullAccount(socket));
+  socket.on("account::send:account", () => {
+    socket.emit("account::get:account", handleAccount(socket));
   });
 });
 

@@ -3,7 +3,7 @@ export interface IExtendedAccount extends IToken {
 }
 
 export interface IAccount {
-  avatar: string;
+  id: string;
   username: string;
 }
 

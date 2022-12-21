@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { IMessage } from "../../../types/Room";
+import { IMessage } from "../../../../shared/Room";
 import styles from "./message.styles.css";
 
 type IMessageProps = IMessage;

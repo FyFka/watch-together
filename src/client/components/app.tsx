@@ -6,8 +6,8 @@ import Profile from "../routes/room/room";
 import Footer from "./footer/footer";
 import { useEffect } from "preact/compat";
 import { subscribeToNewAccount, unsubscribeFromNewAccount } from "../api/auth";
-import { IResponse } from "../types/Response";
-import { IExtendedAccount } from "../types/Account";
+import { IResponse } from "../../shared/Response";
+import { IExtendedAccount } from "../../shared/Account";
 import { reconnect } from "../api/connection";
 import { saveToLocalStorage } from "../utils/localStorage";
 

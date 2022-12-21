@@ -1,12 +1,7 @@
-import { verify } from "jsonwebtoken";
 import { Socket } from "socket.io";
-import config from "../config";
+import { IAccount } from "../../shared/Account";
+import { IResponse } from "../../shared/Response";
 
-export const handleFullAccount = async (socket: Socket) => {
-  try {
-    const account = verify(socket.handshake.auth.token || "", config.JWT_SECRET);
-    return account;
-  } catch (err) {
-    console.log(err);
-  }
+export const handleAccount = (socket: Socket): IResponse<IAccount> => {
+  return { payload: socket.account };
 };

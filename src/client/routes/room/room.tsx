@@ -3,7 +3,7 @@ import { useState } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
 import Player from "../../components/player/player";
-import { IMessage } from "../../types/Room";
+import { IMessage } from "../../../shared/Room";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
 
