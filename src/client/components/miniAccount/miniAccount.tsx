@@ -26,7 +26,7 @@ function MiniAccount() {
   };
 
   return (
-    <button className={styles.miniProfile} title={miniAccount?.username}>
+    <button onClick={() => console.log(miniAccount)} className={styles.miniProfile} title={miniAccount?.username}>
       <Avatar size={40} name={miniAccount?.username} variant="marble" />
     </button>
   );

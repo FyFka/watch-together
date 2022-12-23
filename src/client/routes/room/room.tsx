@@ -1,22 +1,47 @@
 import { h } from "preact";
-import { useState } from "preact/compat";
+import { useEffect, useState } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
 import Player from "../../components/player/player";
-import { IMessage } from "../../../shared/Room";
+import { IMessage, IRoom } from "../../../shared/Room";
+import { joinRoom, subscribeToJoinRoom, unsubscribeFromJoinRoom } from "../../api/room";
+import { IResponse } from "../../../shared/Response";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
 
-interface IProfileProps {
+interface IRoomProps {
   roomId: string;
 }
-function Profile({ roomId }: IProfileProps) {
+
+function Room({ roomId }: IRoomProps) {
+  const [loading, setLoading] = useState<boolean>(true);
   const [playlist, setPlaylist] = useState<string[]>([]);
-  const [videoSource, setVideoSource] = useState<string>("");
+  const [selected, setSelected] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
 
+  useEffect(() => {
+    subscribeToJoinRoom(handleJoinRoom);
+    joinRoom(roomId);
+
+    return () => {
+      unsubscribeFromJoinRoom();
+    };
+  }, []);
+
+  const handleJoinRoom = (res: IResponse<IRoom>) => {
+    if (res.payload) {
+      const { playlist, selected, chatHistory } = res.payload;
+      setPlaylist(playlist);
+      setSelected(selected);
+      setChatHistory(chatHistory);
+    } else if (res.message) {
+      alert(res.message);
+    }
+    setLoading(false);
+  };
+
   const changeSource = (source: string) => {
-    setVideoSource(source);
+    setSelected(source);
   };
 
   const addToPlaylist = (newVideo: string) => {
@@ -26,17 +51,13 @@ function Profile({ roomId }: IProfileProps) {
   return (
     <section className={styles.room}>
       <div className={styles.view}>
-        <Player src={videoSource} />
-        <Controls
-          playlist={playlist}
-          selected={videoSource}
-          changeSource={changeSource}
-          addToPlaylist={addToPlaylist}
-        />
+        <Player src={selected} />
+        <Controls playlist={playlist} selected={selected} changeSource={changeSource} addToPlaylist={addToPlaylist} />
       </div>
       <Chat chatHistory={chatHistory} />
+      {loading && <div className={styles.loading}></div>}
     </section>
   );
 }
 
-export default Profile;
+export default Room;

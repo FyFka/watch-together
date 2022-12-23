@@ -5,6 +5,7 @@ export interface IExtendedAccount extends IToken {
 export interface IAccount {
   id: string;
   username: string;
+  password: string;
 }
 
 export interface IToken {

@@ -4,6 +4,7 @@ export interface IRoom {
   playlist: string[];
   selected: string;
   chatHistory: IMessage[];
+  users: string[];
   settings: null;
 }
 

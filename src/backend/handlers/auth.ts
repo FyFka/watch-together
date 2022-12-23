@@ -1,26 +1,29 @@
 import { sign } from "jsonwebtoken";
-import { uniqueNamesGenerator, animals, adjectives } from "unique-names-generator";
+import { IExtendedAccount } from "../../shared/Account";
 import config from "../config";
 import database from "../database";
+import { generateAccount } from "../utils/generate";
 
-export const handleInvalidToken = async () => {
+export interface IExtendedError extends Error {
+  data?: {
+    evt: string;
+    payload: IExtendedAccount;
+  };
+}
+
+export const handleCreateAccount = async () => {
   try {
-    const err = new Error("Not authorized") as any;
-    const account = {
-      username: uniqueNamesGenerator({ dictionaries: [adjectives, animals] }),
-      createdAt: new Date(),
-    };
+    const err = new Error("Not authorized") as IExtendedError;
+    const account = generateAccount();
     const { insertedId } = await database.collection("accounts").insertOne(account);
     err.data = {
       evt: "auth::get:account-new",
       payload: {
         token: sign({ id: insertedId }, config.JWT_SECRET, { expiresIn: "72h" }),
-        account,
+        account: { ...account, id: insertedId.toHexString() },
       },
     };
 
     return err;
-  } catch (err: any) {
-    return { message: "Something bad happened. The room has not been created" };
-  }
+  } catch (_) {}
 };
