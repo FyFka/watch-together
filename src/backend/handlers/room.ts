@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { Socket } from "socket.io";
 import { IResponse } from "../../shared/Response";
 import database from "../database";
 
@@ -18,15 +19,16 @@ export const handleCreateRoom = async (): Promise<IResponse<{ id: string }>> => 
   }
 };
 
-export const handleJoinRoom = async (roomId: string) => {
+export const handleJoinRoom = async (socket: Socket, roomId: string) => {
   try {
     const room = await database.collection("rooms").findOne({ _id: new ObjectId(roomId) });
     if (!room) {
       return { message: "Room not found" };
     }
+    socket.join(roomId);
     const { _id, ...rest } = room;
     return { payload: { ...rest, id: _id } };
   } catch (err) {
-    return { message: "Room not found" };
+    return { message: "Room not found[2]" };
   }
 };

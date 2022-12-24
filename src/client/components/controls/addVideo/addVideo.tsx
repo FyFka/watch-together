@@ -1,13 +1,14 @@
 import { h } from "preact";
 import { useState } from "preact/compat";
+import { addToPlaylist } from "../../../api/video";
 import Button from "../../button/button";
 import styles from "./addVideo.styles.css";
 
 interface IAddVideoProps {
-  add: (source: string) => void;
+  roomId: string;
 }
 
-function AddVideo({ add }: IAddVideoProps) {
+function AddVideo({ roomId }: IAddVideoProps) {
   const [videoUrl, setVideoUrl] = useState("");
 
   const handleVideoUrlChange = (evt: h.JSX.TargetedEvent<HTMLInputElement>) => {
@@ -16,7 +17,7 @@ function AddVideo({ add }: IAddVideoProps) {
 
   const handleVideoUrlSubmit = (evt: h.JSX.TargetedEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    add(videoUrl);
+    addToPlaylist(videoUrl, roomId);
     setVideoUrl("");
   };
 

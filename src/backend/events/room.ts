@@ -6,7 +6,7 @@ const registerRoomEvents = (socket: Socket) => {
     socket.emit("room::get:create", await handleCreateRoom());
   });
   socket.on("room::send:join", async (roomId: string) => {
-    socket.emit("room::get:join", await handleJoinRoom(roomId));
+    socket.emit("room::get:join", await handleJoinRoom(socket, roomId));
   });
 };
 

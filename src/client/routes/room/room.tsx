@@ -8,6 +8,12 @@ import { joinRoom, subscribeToJoinRoom, unsubscribeFromJoinRoom } from "../../ap
 import { IResponse } from "../../../shared/Response";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
+import {
+  subscribeToPlaylist,
+  subscribeToSelect,
+  unsubscribeFromPlaylist,
+  unsubscribeFromSelect,
+} from "../../api/video";
 
 interface IRoomProps {
   roomId: string;
@@ -21,10 +27,14 @@ function Room({ roomId }: IRoomProps) {
 
   useEffect(() => {
     subscribeToJoinRoom(handleJoinRoom);
+    subscribeToPlaylist(handlePlaylist);
+    subscribeToSelect(handleChangeSelect);
     joinRoom(roomId);
 
     return () => {
       unsubscribeFromJoinRoom();
+      unsubscribeFromPlaylist();
+      unsubscribeFromSelect();
     };
   }, []);
 
@@ -40,19 +50,27 @@ function Room({ roomId }: IRoomProps) {
     setLoading(false);
   };
 
-  const changeSource = (source: string) => {
-    setSelected(source);
+  const handleChangeSelect = (res: IResponse<string>) => {
+    if (res.payload) {
+      setSelected(res.payload);
+    } else {
+      alert(res.message);
+    }
   };
 
-  const addToPlaylist = (newVideo: string) => {
-    setPlaylist([...playlist, newVideo]);
+  const handlePlaylist = (res: IResponse<string[]>) => {
+    if (res.payload) {
+      setPlaylist(res.payload);
+    } else {
+      alert(res.message);
+    }
   };
 
   return (
     <section className={styles.room}>
       <div className={styles.view}>
         <Player src={selected} />
-        <Controls playlist={playlist} selected={selected} changeSource={changeSource} addToPlaylist={addToPlaylist} />
+        <Controls playlist={playlist} selected={selected} roomId={roomId} />
       </div>
       <Chat chatHistory={chatHistory} />
       {loading && <div className={styles.loading}></div>}

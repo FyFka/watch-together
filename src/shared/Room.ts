@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface IRoom {
   id: string;
   createdAt: number;
@@ -9,7 +11,7 @@ export interface IRoom {
 }
 
 export interface IRoomRaw extends Omit<IRoom, "id" | "createdAt"> {
-  _id: string;
+  _id: ObjectId;
   createdAt: Date;
 }
 

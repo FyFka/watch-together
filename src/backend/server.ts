@@ -8,6 +8,7 @@ import anyRouteHandler from "./routes/[index]";
 import registerRoomEvents from "./events/room";
 import registerAccountEvents from "./events/account";
 import staticFiles from "./static";
+import registerVideoEvents from "./events/video";
 
 const app = express();
 const server = http.createServer(app);
@@ -22,6 +23,7 @@ io.use(authMiddleware);
 io.on("connection", (socket) => {
   registerRoomEvents(socket);
   registerAccountEvents(socket);
+  registerVideoEvents(io, socket);
 });
 
 server.listen(config.PORT, () => {
