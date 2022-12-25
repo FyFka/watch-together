@@ -1,30 +1,45 @@
 import { h, Fragment } from "preact";
 import { Route, Router } from "preact-router";
-import Header from "./header/header";
-import Home from "../routes/home/home";
-import Footer from "./footer/footer";
 import { useEffect } from "preact/compat";
-import { subscribeToNewAccount, unsubscribeFromNewAccount } from "../api/auth";
+import { IAccount, IExtendedAccount } from "../../shared/Account";
 import { IResponse } from "../../shared/Response";
-import { IExtendedAccount } from "../../shared/Account";
+import { getAccount, subscribeToAccount, unsubscribeFromAccount } from "../api/account";
+import { subscribeToNewAccount, unsubscribeFromNewAccount } from "../api/auth";
 import { reconnect } from "../api/connection";
-import { saveToLocalStorage } from "../utils/localStorage";
+import Home from "../routes/home/home";
 import Room from "../routes/room/room";
+import { setAccount } from "../store/account/accountSlice";
+import { useAppDispatch } from "../store/hooks";
+import { saveToLocalStorage } from "../utils/localStorage";
+import Footer from "./footer/footer";
+import Header from "./header/header";
 
 function App() {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     subscribeToNewAccount(handleNewAccount);
+    subscribeToAccount(handleAccount);
+    getAccount();
 
     return () => {
       unsubscribeFromNewAccount();
+      unsubscribeFromAccount();
     };
   }, []);
 
+  const handleAccount = (res: IResponse<IAccount>) => {
+    if (res.payload) {
+      dispatch(setAccount(res.payload));
+    } else {
+      alert(res.message);
+    }
+  };
+
   const handleNewAccount = (res: IResponse<IExtendedAccount>) => {
     if (res.payload) {
-      const { token, account } = res.payload;
+      const { token } = res.payload;
       saveToLocalStorage("token", token);
-      saveToLocalStorage("cached_account", account);
       reconnect(res.payload.token);
     } else {
       alert(res.message);

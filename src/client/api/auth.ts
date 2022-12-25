@@ -4,7 +4,7 @@ import { IResponse } from "../../shared/Response";
 import { socket } from "./connection";
 
 export const subscribeToNewAccount = (callback: (res: IResponse<IExtendedAccount>) => void) => {
-  socket.on("connect_error", (err: IExtendedError) => {
+  socket.on("connect_error", (err: IExtendedError & Error) => {
     if (err.data && err.data.evt === "auth::get:account-new") {
       callback(err.data);
     }

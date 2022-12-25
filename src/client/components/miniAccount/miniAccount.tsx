@@ -1,33 +1,16 @@
 import Avatar from "boring-avatars";
 import { h } from "preact";
-import { useEffect, useState } from "preact/compat";
-import { getAccount, subscribeToAccount, unsubscribeFromAccount } from "../../api/account";
-import { IAccount } from "../../../shared/Account";
-import { getFromLocalStorage } from "../../utils/localStorage";
+import { selectAccount } from "../../store/account/accountSlice";
+import { useAppSelector } from "../../store/hooks";
 import styles from "./miniAccount.styles.css";
-import { IResponse } from "../../../shared/Response";
 
 function MiniAccount() {
-  const [miniAccount, setMiniAccount] = useState(getFromLocalStorage<IAccount>("cached_account"));
-
-  useEffect(() => {
-    subscribeToAccount(handleAccount);
-    getAccount();
-
-    return () => {
-      unsubscribeFromAccount();
-    };
-  }, []);
-
-  const handleAccount = (res: IResponse<IAccount>) => {
-    if (res.payload) {
-      setMiniAccount(res.payload);
-    }
-  };
+  const account = useAppSelector(selectAccount);
 
   return (
-    <button onClick={() => console.log(miniAccount)} className={styles.miniProfile} title={miniAccount?.username}>
-      <Avatar size={40} name={miniAccount?.username} variant="marble" />
+    <button className={styles.miniProfile} title={account?.username}>
+      {account && <Avatar size={40} name={account.username} variant="marble" />}
+      {!account && <div className={styles.empty} />}
     </button>
   );
 }

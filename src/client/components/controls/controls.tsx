@@ -13,7 +13,7 @@ interface IControlsProps {
 
 function Controls({ playlist, selected, roomId }: IControlsProps) {
   const handleActiveChange = (src: string) => {
-    selectVideo(src);
+    selectVideo(src, roomId);
   };
 
   return (

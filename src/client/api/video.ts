@@ -13,14 +13,14 @@ export const unsubscribeFromPlaylist = () => {
   socket.off("video::get:playlist");
 };
 
-export const selectVideo = (source: string) => {
-  socket.emit("video::send:select", source);
+export const selectVideo = (selectedVideo: string, roomId: string) => {
+  socket.emit("video::send:select-video", selectedVideo, roomId);
 };
 
 export const subscribeToSelect = (callback: (res: IResponse<string>) => void) => {
-  socket.on("video::get:select", callback);
+  socket.on("video::get:select-video", callback);
 };
 
 export const unsubscribeFromSelect = () => {
-  socket.off("video::get:select");
+  socket.off("video::get:select-video");
 };

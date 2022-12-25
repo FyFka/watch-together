@@ -6,12 +6,25 @@ export const handleAddPlaylist = async (source: string, roomId: string) => {
   try {
     const room = await database
       .collection<IRoomRaw>("rooms")
-      .findOneAndUpdate({ _id: new ObjectId(roomId) }, { $push: { playlist: source } });
+      .findOneAndUpdate({ _id: new ObjectId(roomId) }, { $push: { playlist: source } }, { returnDocument: "after" });
     if (!room) {
       return { message: "Room not found" };
     }
+    return { payload: room.value?.playlist };
+  } catch (err) {
+    return { message: "Room not found[2]" };
+  }
+};
 
-    return { payload: room };
+export const handleSelection = async (selected: string, roomId: string) => {
+  try {
+    const room = await database
+      .collection<IRoomRaw>("rooms")
+      .findOneAndUpdate({ _id: new ObjectId(roomId) }, { $set: { selected } }, { returnDocument: "after" });
+    if (!room) {
+      return { message: "Room not found" };
+    }
+    return { payload: room.value?.selected };
   } catch (err) {
     return { message: "Room not found[2]" };
   }

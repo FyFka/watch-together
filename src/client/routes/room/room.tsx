@@ -2,7 +2,6 @@ import { h } from "preact";
 import { useEffect, useState } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
-import Player from "../../components/player/player";
 import { IMessage, IRoom } from "../../../shared/Room";
 import { joinRoom, subscribeToJoinRoom, unsubscribeFromJoinRoom } from "../../api/room";
 import { IResponse } from "../../../shared/Response";
@@ -14,6 +13,7 @@ import {
   unsubscribeFromPlaylist,
   unsubscribeFromSelect,
 } from "../../api/video";
+import Player from "../../components/player/player";
 
 interface IRoomProps {
   roomId: string;

@@ -11,3 +11,9 @@
 .miniProfile:active {
   transform: translateY(0.15rem);
 }
+
+.empty {
+  height: 100%;
+  width: 100%;
+  background-color: #e0e0e0;
+}
