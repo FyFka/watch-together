@@ -1,10 +1,10 @@
 import { h } from "preact";
-import { memo, useEffect, useMemo, useRef } from "preact/compat";
+import { useEffect, useRef } from "preact/compat";
 import videojs, { VideoJsPlayer } from "video.js";
 import styles from "./videoPlayer.styles.css";
 
 interface IVideoPlayerProps {
-  src?: string;
+  src: string;
   onPlay: (seconds: number) => void;
   onPause: (seconds: number) => void;
 }
@@ -21,6 +21,10 @@ function VideoPlayer({ src, onPlay, onPause }: IVideoPlayerProps) {
       videoPlayer.current?.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    changeSource(src);
+  }, [src]);
 
   const initPlayer = () => {
     if (!htmlPlayerRef.current) return;
@@ -46,7 +50,6 @@ function VideoPlayer({ src, onPlay, onPause }: IVideoPlayerProps) {
     videoPlayer.current.src(newSrc || "");
   };
 
-  useMemo(() => changeSource(src), [src]);
   return (
     <div className={styles.videoPlayer}>
       <video className={`${styles.htmlPlayer} video-js vjs-big-play-centered`} ref={htmlPlayerRef} />
@@ -54,4 +57,4 @@ function VideoPlayer({ src, onPlay, onPause }: IVideoPlayerProps) {
   );
 }
 
-export default memo(VideoPlayer, (prevProps, nextProps) => prevProps.src === nextProps.src);
+export default VideoPlayer;

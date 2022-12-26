@@ -1,13 +1,13 @@
 import { h } from "preact";
 import { useEffect, useState } from "preact/compat";
 import styles from "./footer.styles.css";
-import { subscribeToConnection, unsubscribeFromConnection } from "../../api/connection";
+import { subscribeToConnection } from "../../api/connection";
 
 function Footer() {
   const [connectionId, setConnectionId] = useState<string>("");
 
   useEffect(() => {
-    subscribeToConnection(handleConnectionChange);
+    const unsubscribeFromConnection = subscribeToConnection(handleConnectionChange);
 
     return () => {
       unsubscribeFromConnection();

@@ -8,18 +8,18 @@ export const createRoom = () => {
 
 export const subscribeToCreatedRoom = (callback: (res: IResponse<{ id: string }>) => void) => {
   socket.on("room::get:create", callback);
-};
 
-export const unsubscribeFromCreatedRoom = () => {
-  socket.off("room::get:create");
+  return () => {
+    socket.off("room::get:create", callback);
+  };
 };
 
 export const subscribeToJoinRoom = (callback: (res: IResponse<IRoom>) => void) => {
   socket.on("room::get:join", callback);
-};
 
-export const unsubscribeFromJoinRoom = () => {
-  socket.off("room::get:join");
+  return () => {
+    socket.off("room::get:join", callback);
+  };
 };
 
 export const joinRoom = (roomId: string) => {

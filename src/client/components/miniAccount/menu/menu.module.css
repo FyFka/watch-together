@@ -1,0 +1,62 @@
+.menu {
+  position: absolute;
+  z-index: 799;
+  right: 0;
+  width: 15rem;
+  background-color: #282828;
+  box-shadow: 0px 5px 32px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+}
+
+.signedAs,
+.password {
+  color: #aaaaaa;
+}
+
+.profile {
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid #383838;
+}
+
+.username {
+  user-select: all;
+  color: #fff;
+  cursor: pointer;
+}
+
+.passwordInner {
+  display: inline-block;
+  margin: 0 0.25rem;
+  user-select: all;
+  cursor: pointer;
+  color: #fff;
+}
+
+.actions {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+  border-bottom: 1px solid #383838;
+}
+
+.action {
+  color: #fff;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  text-align: initial;
+}
+
+.hidden {
+  filter: blur(0.35rem);
+}
+
+.signOut {
+  color: #fff;
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  border: none;
+}

@@ -9,8 +9,8 @@ export const subscribeToNewAccount = (callback: (res: IResponse<IExtendedAccount
       callback(err.data);
     }
   });
-};
 
-export const unsubscribeFromNewAccount = () => {
-  socket.off("auth::get:account-new");
+  return () => {
+    socket.off("connect_error", callback);
+  };
 };

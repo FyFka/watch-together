@@ -3,16 +3,11 @@ import { useEffect, useState } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
 import { IMessage, IRoom } from "../../../shared/Room";
-import { joinRoom, subscribeToJoinRoom, unsubscribeFromJoinRoom } from "../../api/room";
+import { joinRoom, subscribeToJoinRoom } from "../../api/room";
 import { IResponse } from "../../../shared/Response";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
-import {
-  subscribeToPlaylist,
-  subscribeToSelect,
-  unsubscribeFromPlaylist,
-  unsubscribeFromSelect,
-} from "../../api/video";
+import { subscribeToPlaylist, subscribeToSelect } from "../../api/video";
 import Player from "../../components/player/player";
 
 interface IRoomProps {
@@ -26,9 +21,9 @@ function Room({ roomId }: IRoomProps) {
   const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    subscribeToJoinRoom(handleJoinRoom);
-    subscribeToPlaylist(handlePlaylist);
-    subscribeToSelect(handleChangeSelect);
+    const unsubscribeFromJoinRoom = subscribeToJoinRoom(handleJoinRoom);
+    const unsubscribeFromPlaylist = subscribeToPlaylist(handlePlaylist);
+    const unsubscribeFromSelect = subscribeToSelect(handleChangeSelect);
     joinRoom(roomId);
 
     return () => {
@@ -69,11 +64,11 @@ function Room({ roomId }: IRoomProps) {
   return (
     <section className={styles.room}>
       <div className={styles.view}>
-        <Player src={selected} />
+        <Player src={selected} roomId={roomId} />
         <Controls playlist={playlist} selected={selected} roomId={roomId} />
       </div>
       <Chat chatHistory={chatHistory} />
-      {loading && <div className={styles.loading}></div>}
+      {loading && <div className={styles.loading} />}
     </section>
   );
 }

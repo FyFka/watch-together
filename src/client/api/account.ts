@@ -8,8 +8,8 @@ export const getAccount = () => {
 
 export const subscribeToAccount = (callback: (res: IResponse<IAccount>) => void) => {
   socket.on("account::get:account", callback);
-};
 
-export const unsubscribeFromAccount = () => {
-  socket.off("account::get:account");
+  return () => {
+    socket.off("account::get:account", callback);
+  };
 };

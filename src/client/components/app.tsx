@@ -3,8 +3,8 @@ import { Route, Router } from "preact-router";
 import { useEffect } from "preact/compat";
 import { IAccount, IExtendedAccount } from "../../shared/Account";
 import { IResponse } from "../../shared/Response";
-import { getAccount, subscribeToAccount, unsubscribeFromAccount } from "../api/account";
-import { subscribeToNewAccount, unsubscribeFromNewAccount } from "../api/auth";
+import { getAccount, subscribeToAccount } from "../api/account";
+import { subscribeToNewAccount } from "../api/auth";
 import { reconnect } from "../api/connection";
 import Home from "../routes/home/home";
 import Room from "../routes/room/room";
@@ -18,8 +18,8 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    subscribeToNewAccount(handleNewAccount);
-    subscribeToAccount(handleAccount);
+    const unsubscribeFromNewAccount = subscribeToNewAccount(handleNewAccount);
+    const unsubscribeFromAccount = subscribeToAccount(handleAccount);
     getAccount();
 
     return () => {

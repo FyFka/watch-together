@@ -1,4 +1,10 @@
+.miniProfileContainer {
+  position: relative;
+}
+
 .miniProfile {
+  position: relative;
+  z-index: 899;
   height: 2.5rem;
   width: 2.5rem;
   padding: 0;

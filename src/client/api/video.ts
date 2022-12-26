@@ -7,10 +7,10 @@ export const addToPlaylist = (source: string, roomId: string) => {
 
 export const subscribeToPlaylist = (callback: (res: IResponse<string[]>) => void) => {
   socket.on("video::get:playlist", callback);
-};
 
-export const unsubscribeFromPlaylist = () => {
-  socket.off("video::get:playlist");
+  return () => {
+    socket.off("video::get:playlist", callback);
+  };
 };
 
 export const selectVideo = (selectedVideo: string, roomId: string) => {
@@ -19,8 +19,32 @@ export const selectVideo = (selectedVideo: string, roomId: string) => {
 
 export const subscribeToSelect = (callback: (res: IResponse<string>) => void) => {
   socket.on("video::get:select-video", callback);
+
+  return () => {
+    socket.off("video::get:select-video", callback);
+  };
 };
 
-export const unsubscribeFromSelect = () => {
-  socket.off("video::get:select-video");
+export const playVideo = (seconds: number, roomId: string) => {
+  socket.emit("video::send:play", roomId);
+};
+
+export const subscribeToPlay = (callback: (res: IResponse<string>) => void) => {
+  socket.on("video::get:play", callback);
+
+  return () => {
+    socket.off("video::get:play", callback);
+  };
+};
+
+export const pauseVideo = (seconds: number, roomId: string) => {
+  socket.emit("video::send:pause", roomId);
+};
+
+export const subscribeToPause = (callback: (res: IResponse<string>) => void) => {
+  socket.on("video::get:pause", callback);
+
+  return () => {
+    socket.off("video::get:pause", callback);
+  };
 };

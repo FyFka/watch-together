@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { route } from "preact-router";
 import { useEffect, useState } from "preact/compat";
-import { createRoom, subscribeToCreatedRoom, unsubscribeFromCreatedRoom } from "../../api/room";
+import { createRoom, subscribeToCreatedRoom } from "../../api/room";
 import { IResponse } from "../../../shared/Response";
 import Button from "../button/button";
 import styles from "./createRoom.styles.css";
@@ -10,7 +10,7 @@ function CreateRoom() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    subscribeToCreatedRoom(handleCreatedRoom);
+    const unsubscribeFromCreatedRoom = subscribeToCreatedRoom(handleCreatedRoom);
 
     return () => {
       unsubscribeFromCreatedRoom();
