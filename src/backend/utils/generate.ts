@@ -7,3 +7,19 @@ export const generateAccount = () => {
     password: (Math.random() + 1).toString(36),
   };
 };
+
+export const generateRoom = (ownerId: string) => {
+  return {
+    createdAt: Date.now(),
+    name: uniqueNamesGenerator({ dictionaries: [animals] }),
+    playlist: [],
+    selected: "",
+    settings: "",
+    chatHistory: [],
+    users: {
+      online: [],
+      members: [ownerId],
+      owner: ownerId,
+    },
+  };
+};

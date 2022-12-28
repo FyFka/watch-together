@@ -9,10 +9,12 @@ import registerRoomEvents from "./events/room";
 import registerAccountEvents from "./events/account";
 import staticFiles from "./static";
 import registerVideoEvents from "./events/video";
+import initDatabase from "./database";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
+initDatabase();
 
 app.disable("x-powered-by");
 app.use(compression());

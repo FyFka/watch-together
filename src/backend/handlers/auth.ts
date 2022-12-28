@@ -1,7 +1,7 @@
 import { sign } from "jsonwebtoken";
 import { IExtendedAccount } from "../../shared/Account";
 import config from "../config";
-import database from "../database";
+import Account from "../models/account";
 import { generateAccount } from "../utils/generate";
 
 export interface IExtendedError extends Error {
@@ -14,13 +14,12 @@ export interface IExtendedError extends Error {
 export const handleCreateAccount = async () => {
   try {
     const err = new Error("Not authorized") as IExtendedError;
-    const account = generateAccount();
-    const { insertedId } = await database.collection("accounts").insertOne(account);
+    const { _id, username, password } = await Account.create(generateAccount());
     err.data = {
       evt: "auth::get:account-new",
       payload: {
-        token: sign({ id: insertedId }, config.JWT_SECRET, { expiresIn: "72h" }),
-        account: { ...account, id: insertedId.toHexString() },
+        token: sign({ id: _id.toHexString() }, config.JWT_SECRET, { expiresIn: "168h" }),
+        account: { username, password, id: _id.toHexString() },
       },
     };
 

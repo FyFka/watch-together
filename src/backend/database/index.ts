@@ -1,15 +1,12 @@
-import { MongoClient, MongoClientOptions } from "mongodb";
+import mongoose from "mongoose";
+import config from "../config";
 
-const initDatabase = (options?: MongoClientOptions) => {
-  if (!process.env.DATABASE_URI) {
-    throw new Error('Invalid/Missing environment variable: "DATABASE_URI"');
-  }
+function initDatabase() {
+  mongoose.set("strictQuery", true);
+  mongoose
+    .connect(config.DATABASE_URI)
+    .then(() => console.log("connected to mongo"))
+    .catch((err) => console.log(err));
+}
 
-  const uri = process.env.DATABASE_URI;
-  const client = new MongoClient(uri, options);
-  client.connect();
-  const database = client.db("watch-together");
-  return database;
-};
-
-export default initDatabase();
+export default initDatabase;
