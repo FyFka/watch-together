@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectRoom, setRoom } from "../../store/room/roomSlice";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
+import Loader from "../../components/loader/loader";
 
 interface IRoomProps {
   roomId: string;
@@ -49,7 +50,7 @@ function Room({ roomId }: IRoomProps) {
           <Chat chatHistory={room.chatHistory} />
         </Fragment>
       )}
-      {!room && <div className={styles.loading} />}
+      {!room && <Loader />}
     </section>
   );
 }
