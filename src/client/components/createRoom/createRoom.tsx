@@ -10,14 +10,14 @@ function CreateRoom() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribeFromCreatedRoom = subscribeToCreatedRoom(handleCreatedRoom);
+    const unsubscribeFromCreatedRoom = subscribeToCreatedRoom(onCreateRoom);
 
     return () => {
       unsubscribeFromCreatedRoom();
     };
   }, []);
 
-  const handleCreatedRoom = (res: IResponse<{ id: string }>) => {
+  const onCreateRoom = (res: IResponse<{ id: string }>) => {
     setLoading(false);
     if (res.payload) {
       route(`/room/${res.payload.id}`);

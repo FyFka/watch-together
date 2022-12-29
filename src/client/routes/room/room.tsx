@@ -1,74 +1,55 @@
-import { h } from "preact";
-import { useEffect, useState } from "preact/compat";
+import { Fragment, h } from "preact";
+import { useEffect } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
-import { IMessage, IRoom } from "../../../shared/Room";
-import { joinRoom, subscribeToJoinRoom } from "../../api/room";
+import { IRoom } from "../../../shared/Room";
+import { joinRoom, leaveRoom, subscribeToJoinRoom } from "../../api/room";
 import { IResponse } from "../../../shared/Response";
+import Player from "../../components/player/player";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectRoom, setRoom } from "../../store/room/roomSlice";
 import styles from "./room.styles.css";
 import "video.js/dist/video-js.css";
-import { subscribeToPlaylist, subscribeToSelect } from "../../api/video";
-import Player from "../../components/player/player";
 
 interface IRoomProps {
   roomId: string;
 }
 
 function Room({ roomId }: IRoomProps) {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [playlist, setPlaylist] = useState<string[]>([]);
-  const [selected, setSelected] = useState<string>("");
-  const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
+  const room = useAppSelector(selectRoom);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromJoinRoom = subscribeToJoinRoom(handleJoinRoom);
-    const unsubscribeFromPlaylist = subscribeToPlaylist(handlePlaylist);
-    const unsubscribeFromSelect = subscribeToSelect(handleChangeSelect);
+    const unsubscribeFromJoinRoom = subscribeToJoinRoom(onJoinRoom);
     joinRoom(roomId);
 
     return () => {
       unsubscribeFromJoinRoom();
-      unsubscribeFromPlaylist();
-      unsubscribeFromSelect();
+      dispatch(setRoom(null));
+      leaveRoom(roomId);
     };
   }, []);
 
-  const handleJoinRoom = (res: IResponse<IRoom>) => {
+  const onJoinRoom = (res: IResponse<IRoom>) => {
     if (res.payload) {
-      const { playlist, selected, chatHistory } = res.payload;
-      setPlaylist(playlist);
-      setSelected(selected);
-      setChatHistory(chatHistory);
+      dispatch(setRoom(res.payload));
     } else if (res.message) {
-      alert(res.message);
-    }
-    setLoading(false);
-  };
-
-  const handleChangeSelect = (res: IResponse<string>) => {
-    if (res.payload) {
-      setSelected(res.payload);
-    } else {
-      alert(res.message);
-    }
-  };
-
-  const handlePlaylist = (res: IResponse<string[]>) => {
-    if (res.payload) {
-      setPlaylist(res.payload);
-    } else {
       alert(res.message);
     }
   };
 
   return (
     <section className={styles.room}>
-      <div className={styles.view}>
-        <Player src={selected} roomId={roomId} />
-        <Controls playlist={playlist} selected={selected} roomId={roomId} />
-      </div>
-      <Chat chatHistory={chatHistory} />
-      {loading && <div className={styles.loading} />}
+      {room && (
+        <Fragment>
+          <div className={styles.view}>
+            <Player src={room.selected} roomId={roomId} />
+            <Controls playlist={room.playlist} selected={room.selected} roomId={roomId} />
+          </div>
+          <Chat chatHistory={room.chatHistory} />
+        </Fragment>
+      )}
+      {!room && <div className={styles.loading} />}
     </section>
   );
 }

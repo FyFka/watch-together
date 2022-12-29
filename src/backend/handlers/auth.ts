@@ -24,5 +24,7 @@ export const handleCreateAccount = async () => {
     };
 
     return err;
-  } catch (_) {}
+  } catch (_) {
+    return new Error("Service unavailable");
+  }
 };

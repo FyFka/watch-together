@@ -14,6 +14,10 @@ export const subscribeToCreatedRoom = (callback: (res: IResponse<{ id: string }>
   };
 };
 
+export const joinRoom = (roomId: string) => {
+  socket.emit("room::send:join", roomId);
+};
+
 export const subscribeToJoinRoom = (callback: (res: IResponse<IRoom>) => void) => {
   socket.on("room::get:join", callback);
 
@@ -22,6 +26,6 @@ export const subscribeToJoinRoom = (callback: (res: IResponse<IRoom>) => void) =
   };
 };
 
-export const joinRoom = (roomId: string) => {
-  socket.emit("room::send:join", roomId);
+export const leaveRoom = (roomId: string) => {
+  socket.emit("room::send:leave", roomId);
 };

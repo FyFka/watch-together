@@ -18,8 +18,8 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromNewAccount = subscribeToNewAccount(handleNewAccount);
-    const unsubscribeFromAccount = subscribeToAccount(handleAccount);
+    const unsubscribeFromNewAccount = subscribeToNewAccount(onNewAccount);
+    const unsubscribeFromAccount = subscribeToAccount(onAccount);
     getAccount();
 
     return () => {
@@ -28,7 +28,7 @@ function App() {
     };
   }, []);
 
-  const handleAccount = (res: IResponse<IAccount>) => {
+  const onAccount = (res: IResponse<IAccount>) => {
     if (res.payload) {
       dispatch(setAccount(res.payload));
     } else {
@@ -36,7 +36,7 @@ function App() {
     }
   };
 
-  const handleNewAccount = (res: IResponse<IExtendedAccount>) => {
+  const onNewAccount = (res: IResponse<IExtendedAccount>) => {
     if (res.payload) {
       const { token } = res.payload;
       saveToLocalStorage("token", token);

@@ -2,15 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAccount } from "../../../shared/Account";
 import type { RootState } from "../store";
 
-interface CounterState {
+interface AccountState {
   value: IAccount | null;
 }
 
-const initialState: CounterState = {
+const initialState: AccountState = {
   value: null,
 };
 
-export const counterSlice = createSlice({
+export const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
@@ -20,6 +20,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setAccount } = counterSlice.actions;
+export const { setAccount } = accountSlice.actions;
 export const selectAccount = (state: RootState) => state.account.value;
-export default counterSlice.reducer;
+export default accountSlice.reducer;

@@ -1,16 +1,24 @@
 export interface IRoom {
   id: string;
   createdAt: number;
+  name: string;
   playlist: string[];
   selected: string;
   chatHistory: IMessage[];
-  users: string[];
-  settings: null;
+  settings: string;
+  player: IPlayer;
+  users: IUsers;
 }
 
-export interface IRoomRaw extends Omit<IRoom, "id" | "createdAt"> {
-  _id: string;
-  createdAt: Date;
+export interface IPlayer {
+  seconds: number;
+  isPlaying: boolean;
+}
+
+export interface IUsers {
+  online: string[];
+  members: string[];
+  owner: string;
 }
 
 export interface IMessage {

@@ -1,14 +1,14 @@
 import { h } from "preact";
-import Button from "../../button/button";
 import styles from "./playlist.styles.css";
+import VideoRow from "./videoRow/videoRow";
 
 interface IPlaylistProps {
   playlist: string[];
   selected?: string;
-  onActiveChange: (video: string) => void;
+  onSelectVideo: (video: string) => void;
 }
 
-function Playlist({ playlist, selected, onActiveChange }: IPlaylistProps) {
+function Playlist({ playlist, selected, onSelectVideo }: IPlaylistProps) {
   return (
     <div className={styles.playlist}>
       <h3 className={styles.title}>Playlist</h3>
@@ -16,15 +16,7 @@ function Playlist({ playlist, selected, onActiveChange }: IPlaylistProps) {
         <ul className={styles.list}>
           {playlist.map((video) => (
             <li key={video}>
-              <Button
-                onClick={() => {
-                  onActiveChange(video);
-                }}
-                className={styles.video}
-                disabled={video === selected}
-              >
-                {video}
-              </Button>
+              <VideoRow videoSrc={video} onSelectVideo={onSelectVideo} selected={selected} />
             </li>
           ))}
         </ul>

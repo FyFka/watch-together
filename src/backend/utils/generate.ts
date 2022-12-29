@@ -16,6 +16,10 @@ export const generateRoom = (ownerId: string) => {
     selected: "",
     settings: "",
     chatHistory: [],
+    player: {
+      seconds: 0,
+      isPlaying: false,
+    },
     users: {
       online: [],
       members: [ownerId],

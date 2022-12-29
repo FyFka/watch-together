@@ -7,6 +7,10 @@ const RoomSchema = new Schema({
   selected: { type: String },
   settings: { type: String },
   chatHistory: [{ type: String, required: true }],
+  player: {
+    seconds: { type: Number, required: true },
+    isPlaying: { type: Boolean, required: true },
+  },
   users: {
     online: [{ type: String, required: true }],
     members: [{ type: String, required: true }],

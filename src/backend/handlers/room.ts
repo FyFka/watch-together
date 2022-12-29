@@ -38,3 +38,13 @@ export const handleDisconnect = async (socket: Socket) => {
     }
   } catch (_) {}
 };
+
+export const handleLeaveRoom = async (socket: Socket, roomId: string) => {
+  try {
+    const room = await Room.findById({ _id: roomId });
+    if (!room) {
+      return;
+    }
+    await room.updateOne({ $pull: { "users.online": socket.account.id } });
+  } catch (_) {}
+};
