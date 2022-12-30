@@ -29,3 +29,15 @@ export const subscribeToJoinRoom = (callback: (res: IResponse<IRoom>) => void) =
 export const leaveRoom = (roomId: string) => {
   socket.emit("room::send:leave", roomId);
 };
+
+export const getRooms = () => {
+  socket.emit("room::send:rooms");
+};
+
+export const subscribeToRooms = (callback: (res: IResponse<IRoom[]>) => void) => {
+  socket.on("room::get:rooms", callback);
+
+  return () => {
+    socket.off("room::get:rooms", callback);
+  };
+};

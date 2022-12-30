@@ -1,0 +1,16 @@
+.roomList {
+  position: relative;
+  min-height: 6rem;
+  width: 100%;
+}
+
+.title {
+  color: #a52a2a;
+}
+
+.rooms {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0;
+  padding: 0;
+}

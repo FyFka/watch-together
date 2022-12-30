@@ -27,6 +27,20 @@ export const handleJoinRoom = async (socket: Socket, roomId: string) => {
   }
 };
 
+export const handleRooms = async (socket: Socket) => {
+  try {
+    const rooms = await Room.find({ "users.members": socket.account.id });
+
+    const roomsView = rooms.map((room) => {
+      const { _id, chatHistory, createdAt, name, playlist, selected, settings } = room;
+      return { chatHistory, createdAt, name, playlist, selected, settings, id: _id };
+    });
+    return { payload: roomsView };
+  } catch (err) {
+    return { message: "The room has not been joined. Try again later." };
+  }
+};
+
 export const handleDisconnect = async (socket: Socket) => {
   try {
     const rooms = await Room.find({ "users.online": socket.account.id });
