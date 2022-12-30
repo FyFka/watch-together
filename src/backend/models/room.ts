@@ -1,6 +1,26 @@
 import { Schema, model } from "mongoose";
 
-const RoomSchema = new Schema({
+export interface IRawRoom {
+  createdAt: Date;
+  name: string;
+  playlist: string[];
+  selected: string;
+  settings: string;
+  chatHistory: string[];
+  player: IRawPlayer;
+  users: {
+    online: string[];
+    members: string[];
+    owner: string;
+  };
+}
+
+export interface IRawPlayer {
+  seconds: number;
+  isPlaying: boolean;
+}
+
+const RoomSchema = new Schema<IRawRoom>({
   createdAt: { type: Date, default: Date.now },
   name: { type: String, required: true },
   playlist: [{ type: String, required: true }],
@@ -18,5 +38,5 @@ const RoomSchema = new Schema({
   },
 });
 
-const Room = model("Room", RoomSchema);
+const Room = model<IRawRoom>("Room", RoomSchema);
 export default Room;

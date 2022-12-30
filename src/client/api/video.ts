@@ -1,4 +1,4 @@
-import { IResponse } from "../../shared/Response";
+import { IExternalEvent } from "../../shared/ExternalEvent";
 import { IPlayer } from "../../shared/Room";
 import { socket } from "./connection";
 
@@ -6,7 +6,7 @@ export const addToPlaylist = (source: string, roomId: string) => {
   socket.emit("video::send:playlist-add", source, roomId);
 };
 
-export const subscribeToPlaylist = (callback: (res: IResponse<string[]>) => void) => {
+export const subscribeToPlaylist = (callback: (extEvt: IExternalEvent<string[]>) => void) => {
   socket.on("video::get:playlist", callback);
 
   return () => {
@@ -18,7 +18,7 @@ export const selectVideo = (selectedVideo: string, roomId: string) => {
   socket.emit("video::send:select-video", selectedVideo, roomId);
 };
 
-export const subscribeToSelect = (callback: (res: IResponse<string>) => void) => {
+export const subscribeToSelect = (callback: (extEvt: IExternalEvent<string>) => void) => {
   socket.on("video::get:select-video", callback);
 
   return () => {
@@ -30,7 +30,7 @@ export const playVideo = (seconds: number, roomId: string) => {
   socket.emit("video::send:play", seconds, roomId);
 };
 
-export const subscribeToPlay = (callback: (res: IResponse<IPlayer>) => void) => {
+export const subscribeToPlay = (callback: (extEvt: IExternalEvent<IPlayer>) => void) => {
   socket.on("video::get:play", callback);
 
   return () => {
@@ -42,7 +42,7 @@ export const pauseVideo = (seconds: number, roomId: string) => {
   socket.emit("video::send:pause", seconds, roomId);
 };
 
-export const subscribeToPause = (callback: (res: IResponse<IPlayer>) => void) => {
+export const subscribeToPause = (callback: (extEvt: IExternalEvent<IPlayer>) => void) => {
   socket.on("video::get:pause", callback);
 
   return () => {

@@ -4,7 +4,7 @@ import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
 import { IRoom } from "../../../shared/Room";
 import { joinRoom, leaveRoom, subscribeToJoinRoom } from "../../api/room";
-import { IResponse } from "../../../shared/Response";
+import { IExternalEvent } from "../../../shared/ExternalEvent";
 import Player from "../../components/player/player";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectRoom, setRoom } from "../../store/room/roomSlice";
@@ -31,11 +31,11 @@ function Room({ roomId }: IRoomProps) {
     };
   }, []);
 
-  const onJoinRoom = (res: IResponse<IRoom>) => {
-    if (res.payload) {
-      dispatch(setRoom(res.payload));
-    } else if (res.message) {
-      alert(res.message);
+  const onJoinRoom = (extEvt: IExternalEvent<IRoom>) => {
+    if (extEvt.payload) {
+      dispatch(setRoom(extEvt.payload));
+    } else if (extEvt.message) {
+      alert(extEvt.message);
     }
   };
 

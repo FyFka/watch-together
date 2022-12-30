@@ -1,6 +1,6 @@
 import { Fragment, h } from "preact";
 import { useEffect, useState } from "preact/compat";
-import { IResponse } from "../../../shared/Response";
+import { IExternalEvent } from "../../../shared/ExternalEvent";
 import { IRoom } from "../../../shared/Room";
 import { getRooms, subscribeToRooms } from "../../api/room";
 import Loader from "../loader/loader";
@@ -18,11 +18,11 @@ function RoomList() {
     };
   }, []);
 
-  const onRooms = (res: IResponse<IRoom[]>) => {
-    if (res.payload) {
-      setRooms(res.payload);
+  const onRooms = (extEvt: IExternalEvent<IRoom[]>) => {
+    if (extEvt.payload) {
+      setRooms(extEvt.payload);
     } else {
-      alert(res.message);
+      alert(extEvt.message);
       setRooms([]);
     }
   };

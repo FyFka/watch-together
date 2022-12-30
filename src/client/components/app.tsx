@@ -2,7 +2,7 @@ import { h, Fragment } from "preact";
 import { Route, Router } from "preact-router";
 import { useEffect } from "preact/compat";
 import { IAccount, IExtendedAccount } from "../../shared/Account";
-import { IResponse } from "../../shared/Response";
+import { IExternalEvent } from "../../shared/ExternalEvent";
 import { getAccount, subscribeToAccount } from "../api/account";
 import { subscribeToNewAccount } from "../api/auth";
 import { reconnect } from "../api/connection";
@@ -28,21 +28,21 @@ function App() {
     };
   }, []);
 
-  const onAccount = (res: IResponse<IAccount>) => {
-    if (res.payload) {
-      dispatch(setAccount(res.payload));
+  const onAccount = (extEvt: IExternalEvent<IAccount>) => {
+    if (extEvt.payload) {
+      dispatch(setAccount(extEvt.payload));
     } else {
-      alert(res.message);
+      alert(extEvt.message);
     }
   };
 
-  const onNewAccount = (res: IResponse<IExtendedAccount>) => {
-    if (res.payload) {
-      const { token } = res.payload;
+  const onNewAccount = (extEvt: IExternalEvent<IExtendedAccount>) => {
+    if (extEvt.payload) {
+      const { token } = extEvt.payload;
       saveToLocalStorage("token", token);
-      reconnect(res.payload.token);
+      reconnect(extEvt.payload.token);
     } else {
-      alert(res.message);
+      alert(extEvt.message);
     }
   };
 

@@ -5,7 +5,7 @@ import Settings from "./settings/settings";
 import styles from "./controls.styles.css";
 import { selectVideo, subscribeToPlaylist, subscribeToSelect } from "../../api/video";
 import { useEffect } from "preact/compat";
-import { IResponse } from "../../../shared/Response";
+import { IExternalEvent } from "../../../shared/ExternalEvent";
 import { useAppDispatch } from "../../store/hooks";
 import { setPlaylist, setSelected } from "../../store/room/roomSlice";
 
@@ -28,19 +28,19 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
     };
   }, []);
 
-  const onChangeSelect = (res: IResponse<string>) => {
-    if (res.payload) {
-      dispatch(setSelected(res.payload));
+  const onChangeSelect = (extEvt: IExternalEvent<string>) => {
+    if (extEvt.payload) {
+      dispatch(setSelected(extEvt.payload));
     } else {
-      alert(res.message);
+      alert(extEvt.message);
     }
   };
 
-  const onPlaylist = (res: IResponse<string[]>) => {
-    if (res.payload) {
-      dispatch(setPlaylist(res.payload));
+  const onPlaylist = (extEvt: IExternalEvent<string[]>) => {
+    if (extEvt.payload) {
+      dispatch(setPlaylist(extEvt.payload));
     } else {
-      alert(res.message);
+      alert(extEvt.message);
     }
   };
 

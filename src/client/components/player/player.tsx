@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import videojs, { VideoJsPlayer } from "video.js";
-import { IResponse } from "../../../shared/Response";
+import { IExternalEvent } from "../../../shared/ExternalEvent";
 import { IPlayer } from "../../../shared/Room";
 import { pauseVideo, playVideo, subscribeToPause, subscribeToPlay } from "../../api/video";
 import styles from "./player.styles.css";
@@ -51,16 +51,16 @@ function Player({ src, roomId }: IPlayerProps) {
     });
   };
 
-  const play = (res: IResponse<IPlayer>) => {
-    if (res.payload && videoPlayer.current) {
-      videoPlayer.current.currentTime(res.payload.seconds);
+  const play = (extEvt: IExternalEvent<IPlayer>) => {
+    if (extEvt.payload && videoPlayer.current) {
+      videoPlayer.current.currentTime(extEvt.payload.seconds);
       videoPlayer.current.play();
     }
   };
 
-  const pause = (res: IResponse<IPlayer>) => {
-    if (res.payload && videoPlayer.current) {
-      videoPlayer.current.currentTime(res.payload.seconds);
+  const pause = (extEvt: IExternalEvent<IPlayer>) => {
+    if (extEvt.payload && videoPlayer.current) {
+      videoPlayer.current.currentTime(extEvt.payload.seconds);
       videoPlayer.current.pause();
     }
   };
