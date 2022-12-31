@@ -1,0 +1,6 @@
+.turbo
+node_modules
+build/
+dist/
+**/*.js
+**/*.json

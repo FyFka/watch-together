@@ -5,7 +5,6 @@ module.exports = {
   rules: {
     "no-console": "error",
   },
-  ignorePatterns: ["build/", "node_modules/", "**/*.js", "**/*.json"],
   env: {
     node: true,
     browser: true,
