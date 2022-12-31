@@ -13,5 +13,6 @@
       "cache": false
     }
   },
-  "globalDependencies": [".env"]
+  "globalDependencies": [".env"],
+  "globalDependencies": ["$PREACT_DEV_API_URL", "$DATABASE_URI", "$JWT_SECRET", "$PORT"]
 }

@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "React Library",
+  "display": "Default",
   "extends": "./base.json",
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2015",
     "module": "CommonJS"
   },
   "ts-node": {

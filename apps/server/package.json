@@ -5,9 +5,12 @@
   "main": "./src/server.ts",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./src/server.ts",
-    "lint": "eslint src --fix"
+    "build": "etsc --target=ES2015",
+    "dev": "nodemon",
+    "lint": "eslint src --fix",
+    "preview": "node dist/server.js"
   },
+  "module": "true",
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.4",
@@ -23,6 +26,8 @@
     "@types/express": "^4.17.15",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.11.18",
+    "esbuild": "^0.16.12",
+    "esbuild-node-tsc": "^2.0.4",
     "eslint-config-custom": "*",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",

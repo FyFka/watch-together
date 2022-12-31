@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "preact build",
     "dev": "preact watch",
     "lint": "eslint src --fix"
   },

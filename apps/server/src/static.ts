@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 
 const staticFiles = () => {
-  return express.static(path.join(__dirname, "..", "client"), {
+  return express.static(path.join(__dirname, "../../", "web", "build"), {
     maxAge: "7d",
     index: false,
     setHeaders: (res) => {

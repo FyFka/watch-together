@@ -3,6 +3,10 @@ node_modules
 .env.*
 !.env.example
 
+dist
+build
+size-plugin.json
+
 pnpm-lock.yaml
 pnpm-workspace.yaml
 package-lock.json

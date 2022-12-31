@@ -1,6 +1,7 @@
 .turbo
 node_modules
-build/
-dist/
+build
+dist
 **/*.js
 **/*.json
+**/*.lock
