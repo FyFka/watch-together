@@ -4,6 +4,7 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   rules: {
     "no-console": "error",
+    "no-debugger": "error",
   },
   env: {
     node: true,

@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "preview": "turbo run preview",
+    "deploy": "turbo run deploy",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",

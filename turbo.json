@@ -3,16 +3,14 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "build/**"]
     },
     "lint": {
-      "outputs": [],
       "cache": false
     },
     "dev": {
       "cache": false
     }
   },
-  "globalDependencies": [".env"],
-  "globalDependencies": ["$PREACT_DEV_API_URL", "$DATABASE_URI", "$JWT_SECRET", "$PORT"]
+  "globalEnv": [".env", "PREACT_DEV_API_URL", "DATABASE_URI", "JWT_SECRET", "PORT"]
 }

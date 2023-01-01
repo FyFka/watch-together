@@ -2,7 +2,7 @@ import { h } from "preact";
 import { IMessage } from "types/src/Room";
 import styles from "./message.styles.css";
 
-type IMessageProps = IMessage
+type IMessageProps = IMessage;
 
 function Message({ message, username, avatar, sentAt }: IMessageProps) {
   return (
