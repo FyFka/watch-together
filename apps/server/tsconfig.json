@@ -1,4 +1,11 @@
 {
-  "extends": "tsconfig/server.json",
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "CommonJS"
+  },
+  "ts-node": {
+    "files": true
+  },
   "include": ["src/**/*"]
 }

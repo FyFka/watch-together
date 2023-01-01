@@ -2,10 +2,12 @@
   "name": "web",
   "description": "web",
   "version": "0.0.0",
+  "main": "./src/index.ts",
   "private": true,
   "scripts": {
     "build": "preact build",
     "dev": "preact watch",
+    "typecheck": "tsc",
     "lint": "eslint src --fix"
   },
   "license": "MIT",
