@@ -20,10 +20,10 @@ function MiniAccount() {
 
   const isExpanded = account && expanded;
   return (
-    <div className={styles.miniProfileContainer} onFocus={handleExpand} onBlur={handleClose}>
-      <button className={styles.miniProfile} title={account?.username}>
-        {account && <Avatar size={40} name={account.username} variant="marble" />}
-        {!account && <div className={styles.empty} />}
+    <div className={styles.miniProfile} onFocus={handleExpand} onBlur={handleClose}>
+      <button className={styles.miniProfileAction} title={account?.username}>
+        {account && <Avatar size={44} name={account.username} variant="marble" />}
+        {!account && <div className={styles.default} />}
       </button>
       {isExpanded && <Menu account={account} />}
     </div>

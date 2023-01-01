@@ -2,15 +2,23 @@
   position: absolute;
   z-index: 799;
   right: 0;
-  width: 15rem;
+  min-width: 14rem;
+  max-width: 18rem;
   background-color: #282828;
   box-shadow: 0px 5px 32px 0px rgba(0, 0, 0, 0.15);
   border-radius: 0.5rem;
+  overflow: hidden;
 }
 
-.signedAs,
-.password {
-  color: #aaaaaa;
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.text {
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .profile {
@@ -24,25 +32,44 @@
   user-select: all;
   color: #fff;
   cursor: pointer;
+  font-weight: 500;
 }
 
-.passwordInner {
-  display: inline-block;
-  margin: 0 0.25rem;
+.password {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.signedAs,
+.password {
+  color: #aaa;
+}
+
+.password,
+.username {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.passwordText {
+  display: block;
   user-select: all;
   cursor: pointer;
   color: #fff;
+  font-weight: 500;
 }
 
-.actions {
-  list-style: none;
-  margin: 0;
-  padding: 1rem 0;
+.menuOptions {
+  padding: 0.5rem 0;
   border-bottom: 1px solid #383838;
 }
 
-.action {
+.option {
+  display: flex;
+  gap: 0.5rem;
   color: #fff;
+  padding: 0.5rem 1rem;
   width: 100%;
   background-color: transparent;
   border: none;
@@ -54,9 +81,15 @@
 }
 
 .signOut {
-  color: #fff;
+  display: flex;
+  gap: 0.5rem;
   width: 100%;
   padding: 1rem;
   background-color: transparent;
   border: none;
+}
+
+.option:hover,
+.signOut:hover {
+  background-color: #383838;
 }

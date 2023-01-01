@@ -1,12 +1,13 @@
-.miniProfileContainer {
+.miniProfile {
   position: relative;
 }
 
-.miniProfile {
+.miniProfileAction {
+  display: block;
   position: relative;
   z-index: 899;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2.75rem;
+  width: 2.75rem;
   padding: 0;
   background-color: transparent;
   transition: transform 0.1s ease-in-out;
@@ -14,11 +15,11 @@
   overflow: hidden;
 }
 
-.miniProfile:active {
+.miniProfileAction:active {
   transform: translateY(0.15rem);
 }
 
-.empty {
+.default {
   height: 100%;
   width: 100%;
   background-color: #e0e0e0;
