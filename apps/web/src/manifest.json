@@ -1,11 +1,11 @@
 {
-  "name": "watch-together",
-  "short_name": "watch-together",
+  "name": "Watch Together",
+  "short_name": "watch together",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#673ab8",
+  "background_color": "#000",
+  "theme_color": "#0f0f0f",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",
