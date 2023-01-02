@@ -1,90 +1,86 @@
 import { h } from "preact";
 import { useEffect, useRef } from "preact/compat";
-import videojs, { VideoJsPlayer } from "video.js";
+import ReactPlayer from "react-player/lazy";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { IPlayer } from "types/src/Room";
-import { pauseVideo, playVideo, subscribeToPause, subscribeToPlay } from "../../api/video";
+import { subscribeToPause, subscribeToPlay, seekVideo, subscribeToSeek, playVideo, pauseVideo } from "../../api/video";
+import { useAppDispatch } from "../../store/hooks";
+import { setPlayer } from "../../store/room/roomSlice";
 import styles from "./player.styles.css";
 
 interface IPlayerProps {
   src: string;
+  player: IPlayer;
   roomId: string;
 }
 
-function Player({ src, roomId }: IPlayerProps) {
-  const htmlPlayerRef = useRef<HTMLVideoElement>(null);
-  const videoPlayer = useRef<VideoJsPlayer>();
+function Player({ src, player, roomId }: IPlayerProps) {
+  const HTMLPlayer = useRef<ReactPlayer>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromPlay = subscribeToPlay(play);
-    const unsubscribeFromPause = subscribeToPause(pause);
-    initPlayer();
-    initPlayerEvents();
+    const unsubscribeFromPlay = subscribeToPlay(onPlay);
+    const unsubscribeFromPause = subscribeToPause(onPause);
+    const unsubscribeFromSeek = subscribeToSeek(onSeek);
 
     return () => {
       unsubscribeFromPlay();
       unsubscribeFromPause();
-      videoPlayer.current?.dispose();
+      unsubscribeFromSeek();
     };
   }, []);
 
-  useEffect(() => {
-    changeSource(src);
-  }, [src]);
-
-  const initPlayer = () => {
-    if (!htmlPlayerRef.current) return;
-    videoPlayer.current = videojs(htmlPlayerRef.current, {
-      fluid: true,
-      controls: true,
-      defaultVolume: 0,
-    });
-  };
-
-  const initPlayerEvents = () => {
-    if (!videoPlayer.current) return;
-    const player = videoPlayer.current;
-    player.on("ready", () => {
-      if (src) changeSource(src);
-    });
-    player.on("play", () => {
-      handlePlay(player.currentTime());
-    });
-    player.on("pause", () => {
-      handlePause(player.currentTime());
-    });
-  };
-
-  const play = (extEvt: IExternalEvent<IPlayer>) => {
-    if (extEvt.payload && videoPlayer.current) {
-      videoPlayer.current.currentTime(extEvt.payload.seconds);
-      videoPlayer.current.play();
+  const onPlay = (extEvt: IExternalEvent<IPlayer>) => {
+    if (extEvt.payload) {
+      dispatch(setPlayer(extEvt.payload));
     }
   };
 
-  const pause = (extEvt: IExternalEvent<IPlayer>) => {
-    if (extEvt.payload && videoPlayer.current) {
-      videoPlayer.current.currentTime(extEvt.payload.seconds);
-      videoPlayer.current.pause();
+  const onPause = (extEvt: IExternalEvent<IPlayer>) => {
+    if (extEvt.payload) {
+      dispatch(setPlayer(extEvt.payload));
     }
   };
 
-  const handlePause = (seconds: number) => {
-    pauseVideo(seconds, roomId);
+  const onSeek = (extEvt: IExternalEvent<IPlayer>) => {
+    if (extEvt.payload) {
+      dispatch(setPlayer(extEvt.payload));
+    }
   };
 
-  const handlePlay = (seconds: number) => {
-    playVideo(seconds, roomId);
+  const handlePause = () => {
+    if (HTMLPlayer.current) {
+      const seconds = HTMLPlayer.current.getCurrentTime();
+      pauseVideo(seconds, roomId);
+    }
   };
 
-  const changeSource = (newSrc?: string) => {
-    if (!videoPlayer.current) return;
-    videoPlayer.current.src(newSrc || "");
+  const handleSeek = (seconds: number) => {
+    seekVideo(seconds, player.isPlaying, roomId);
+  };
+
+  const handlePlay = () => {
+    if (HTMLPlayer.current) {
+      const seconds = HTMLPlayer.current.getCurrentTime();
+      playVideo(seconds, roomId);
+    }
   };
 
   return (
     <div className={styles.player}>
-      <video className={`${styles.htmlPlayer} video-js vjs-big-play-centered`} ref={htmlPlayerRef} />
+      <ReactPlayer
+        ref={HTMLPlayer}
+        className={styles.htmlPlayer}
+        width="100%"
+        height="100%"
+        url={src}
+        onPause={handlePause}
+        onSeek={handleSeek}
+        onPlay={handlePlay}
+        playing
+        controls
+        muted
+      />
     </div>
   );
 }

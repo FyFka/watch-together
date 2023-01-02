@@ -49,3 +49,15 @@ export const subscribeToPause = (callback: (extEvt: IExternalEvent<IPlayer>) => 
     socket.off("video::get:pause", callback);
   };
 };
+
+export const seekVideo = (seconds: number, isPlaying: boolean, roomId: string) => {
+  socket.emit("video::send:seek", seconds, isPlaying, roomId);
+};
+
+export const subscribeToSeek = (callback: (extEvt: IExternalEvent<IPlayer>) => void) => {
+  socket.on("video::get:seek", callback);
+
+  return () => {
+    socket.off("video::get:seek", callback);
+  };
+};

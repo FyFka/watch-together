@@ -1,4 +1,4 @@
-import { Fragment, h } from "preact";
+import { h } from "preact";
 import { useEffect } from "preact/compat";
 import Chat from "../../components/chat/chat";
 import Controls from "../../components/controls/controls";
@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectRoom, setRoom } from "../../store/room/roomSlice";
 import Loader from "../../components/loader/loader";
 import styles from "./room.styles.css";
-import "video.js/dist/video-js.css";
 
 interface IRoomProps {
   roomId: string;
@@ -39,17 +38,19 @@ function Room({ roomId }: IRoomProps) {
     }
   };
 
+  const { selected, player, playlist, chatHistory } = room || {
+    selected: "",
+    player: { seconds: 0, isPlaying: false },
+    playlist: [],
+    chatHistory: [],
+  };
   return (
     <section className={styles.room}>
-      {room && (
-        <Fragment>
-          <div className={styles.view}>
-            <Player src={room.selected} roomId={roomId} />
-            <Controls playlist={room.playlist} selected={room.selected} roomId={roomId} />
-          </div>
-          <Chat chatHistory={room.chatHistory} />
-        </Fragment>
-      )}
+      <div className={styles.view}>
+        <Player src={selected} player={player} roomId={roomId} />
+        <Controls playlist={playlist} selected={selected} roomId={roomId} />
+      </div>
+      <Chat chatHistory={chatHistory} />
       {!room && <Loader />}
     </section>
   );

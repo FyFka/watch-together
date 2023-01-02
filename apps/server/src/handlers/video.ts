@@ -22,7 +22,7 @@ export const handleSelection = async (selected: string, roomId: string) => {
   }
 };
 
-export const handleAction = async (seconds: number, roomId: string, isPlaying: boolean) => {
+export const handleAction = async (seconds: number, isPlaying: boolean, roomId: string) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
       roomId,
