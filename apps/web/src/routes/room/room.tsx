@@ -39,7 +39,7 @@ function Room({ roomId }: IRoomProps) {
   };
 
   const { selected, player, playlist, chatHistory } = room || {
-    selected: "",
+    selected: " ",
     player: { seconds: 0, isPlaying: false },
     playlist: [],
     chatHistory: [],

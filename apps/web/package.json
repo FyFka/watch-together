@@ -14,10 +14,11 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
     "boring-avatars": "^1.7.0",
+    "hls.js": "^1.2.9",
+    "plyr": "^3.7.3",
     "preact": "^10.10.0",
     "preact-render-to-string": "^5.2.1",
     "preact-router": "^3.2.1",
-    "react-player": "^2.11.0",
     "react-redux": "^8.0.5",
     "socket.io-client": "^4.5.4"
   },
