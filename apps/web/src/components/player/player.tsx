@@ -1,11 +1,15 @@
 import { h } from "preact";
-import { useEffect, useRef } from "preact/compat";
+import { useCallback, useEffect, useRef } from "preact/compat";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { IPlayer } from "types/src/Room";
 import { subscribeToPause, subscribeToPlay, seekVideo, subscribeToSeek, playVideo, pauseVideo } from "../../api/video";
 import styles from "./player.styles.css";
-import Plyr from "plyr";
+import Plyr, { PlyrEvent } from "plyr";
 import Hls from "hls.js";
+import "plyr/dist/plyr.css";
+import { getPlayerTime } from "../../utils/player";
+import throttle from "lodash/throttle";
+import { ACTION_DELAY } from "../../constants";
 
 interface IPlayerProps {
   src: string;
@@ -20,7 +24,6 @@ function Player({ src, player, roomId }: IPlayerProps) {
 
   useEffect(() => {
     initPlayer();
-    initEvents();
 
     const unsubscribeFromPlay = subscribeToPlay(onPlay);
     const unsubscribeFromPause = subscribeToPause(onPause);
@@ -38,11 +41,24 @@ function Player({ src, player, roomId }: IPlayerProps) {
       hls.current = new Hls();
       window.hls = hls.current;
     }
-    webPlayer.current = new Plyr(HTMLPlayerRoot.current, { controls: [], autoplay: true });
-  };
-
-  const initEvents = () => {
-    if (!webPlayer.current) return;
+    webPlayer.current = new Plyr(HTMLPlayerRoot.current, {
+      debug: false,
+      controls: ["play", "play-large", "progress", "current-time", "mute", "volume", "pip", "fullscreen"],
+      listeners: {
+        play() {
+          handleTogglePlay();
+          return false;
+        },
+        pause() {
+          handleTogglePlay();
+          return false;
+        },
+        seek(evt: PlyrEvent) {
+          handleSeek(evt);
+          return false;
+        },
+      },
+    });
   };
 
   const loadVideo = (source: string) => {
@@ -57,10 +73,6 @@ function Player({ src, player, roomId }: IPlayerProps) {
       };
     }
   };
-
-  useEffect(() => {
-    loadVideo(src);
-  }, [src]);
 
   const onPlay = (evt: IExternalEvent<IPlayer>) => {
     if (!webPlayer.current || !evt.payload) return;
@@ -77,43 +89,35 @@ function Player({ src, player, roomId }: IPlayerProps) {
     webPlayer.current.currentTime = evt.payload.seconds;
   };
 
-  const handleTogglePlay = () => {
-    if (!webPlayer.current) return;
-    const currentTime = webPlayer.current.currentTime;
-    if (webPlayer.current.playing) {
-      pauseVideo(currentTime, roomId);
-    } else {
-      playVideo(currentTime, roomId);
-    }
-  };
+  const handleTogglePlay = useCallback(
+    throttle(() => {
+      if (!webPlayer.current) return;
+      const currentTime = webPlayer.current.currentTime;
+      if (webPlayer.current.playing) {
+        pauseVideo(currentTime, roomId);
+      } else {
+        playVideo(currentTime, roomId);
+      }
+    }, ACTION_DELAY),
+    [roomId]
+  );
 
-  const handleSeek = (evt: h.JSX.TargetedEvent<HTMLInputElement, Event>) => {
-    const seconds = Number(evt.currentTarget.value);
-    seekVideo(seconds, player.isPlaying, roomId);
-  };
+  const handleSeek = useCallback(
+    throttle((evt: PlyrEvent) => {
+      if (!webPlayer.current) return;
+      const targetTime = getPlayerTime(evt, webPlayer.current.duration);
+      seekVideo(targetTime, player.isPlaying, roomId);
+    }, ACTION_DELAY),
+    [roomId]
+  );
+
+  useEffect(() => {
+    loadVideo(src);
+  }, [src]);
 
   return (
     <div className={styles.player}>
-      <video className={styles.libPlayer} ref={HTMLPlayerRoot} playsInline={true} />
-      <div className={styles.ui}>
-        <div className={styles.play} onClick={handleTogglePlay} />
-        <div className={styles.controls}>
-          <div className={styles.progress}>
-            <input
-              className={styles.seek}
-              type="range"
-              min="0"
-              max="100"
-              step="0.01"
-              value="0"
-              autocomplete="off"
-              onChange={handleSeek}
-            />
-            <progress className={styles.loaded} min="0" max="100" value="50" />
-          </div>
-          <div className={styles.volume} />
-        </div>
-      </div>
+      <video className={styles.libPlayer} ref={HTMLPlayerRoot} />
     </div>
   );
 }
