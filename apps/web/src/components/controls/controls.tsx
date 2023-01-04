@@ -51,7 +51,7 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
   return (
     <div className={styles.controls}>
       <div className={styles.left}>
-        <AddVideo roomId={roomId} />
+        <AddVideo roomId={roomId} playlist={playlist} />
         <Settings />
       </div>
       <div className={styles.right}>

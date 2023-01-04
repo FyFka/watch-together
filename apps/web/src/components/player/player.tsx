@@ -2,14 +2,14 @@ import { h } from "preact";
 import { useCallback, useEffect, useRef } from "preact/compat";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { IPlayer } from "types/src/Room";
+import throttle from "lodash/throttle";
 import { subscribeToPause, subscribeToPlay, seekVideo, subscribeToSeek, playVideo, pauseVideo } from "../../api/video";
 import styles from "./player.styles.css";
 import Plyr, { PlyrEvent } from "plyr";
 import Hls from "hls.js";
-import "plyr/dist/plyr.css";
 import { getPlayerTime } from "../../utils/player";
-import throttle from "lodash/throttle";
 import { ACTION_DELAY } from "../../constants";
+import "plyr/dist/plyr.css";
 
 interface IPlayerProps {
   src: string;

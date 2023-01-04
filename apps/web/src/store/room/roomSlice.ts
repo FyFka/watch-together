@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IPlayer, IRoom } from "types/src/Room";
 import type { RootState } from "../store";
 
-interface RoomState {
+export interface IRoomState {
   value: IRoom | null;
 }
 
-const initialState: RoomState = {
+const initialState: IRoomState = {
   value: null,
 };
 

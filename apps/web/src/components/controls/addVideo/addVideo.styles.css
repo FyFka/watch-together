@@ -1,11 +1,24 @@
 .addVideo {
+  position: relative;
+  width: 100%;
+  background-color: #202020;
+  border-radius: 0.5rem;
+}
+
+.addVideo[data-error="true"] {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.content {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  background-color: #202020;
+  height: 100%;
   padding: 1rem;
-  border-radius: 0.5rem;
 }
 
 .field {
@@ -18,6 +31,10 @@
   border-radius: 0.5rem;
 }
 
+.field[data-error="true"] {
+  border-color: #a52a2a;
+}
+
 .submit {
   flex: 1;
   min-width: 3rem;
@@ -25,4 +42,15 @@
   border-radius: 0.5rem;
   font-size: 0.85rem;
   text-transform: uppercase;
+}
+
+.error {
+  position: absolute;
+  top: 100%;
+  text-align: center;
+  width: 100%;
+  background-color: #fff;
+  color: #0f0f0f;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }

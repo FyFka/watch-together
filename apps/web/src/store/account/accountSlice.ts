@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAccount } from "types/src/Account";
 import type { RootState } from "../store";
 
-interface AccountState {
+export interface IAccountState {
   value: IAccount | null;
 }
 
-const initialState: AccountState = {
+const initialState: IAccountState = {
   value: null,
 };
 
