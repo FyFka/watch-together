@@ -9,7 +9,7 @@
   height: 100%;
   transform: translateZ(1px);
   z-index: 89999;
-  background-color: #0f0f0f94;
+  background-color: rgba(15, 15, 15, 0.6);
   backdrop-filter: saturate(180%) blur(5px);
 }
 
@@ -17,7 +17,7 @@
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background: #a52a2a;
+  background: var(--color-main);
   background: url("../../assets/logo.svg") 50% 50% no-repeat;
   animation: heart-beat-animation 1s ease-in-out infinite;
 }

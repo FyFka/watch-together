@@ -16,7 +16,7 @@
   padding: 0.5rem 1rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  background-color: #202020;
+  background-color: var(--color-light-dark);
   border-bottom: 2px solid #303030;
 }
 
@@ -32,7 +32,7 @@
 .userMessage {
   min-height: 4rem;
   flex: 1 1;
-  background-color: #202020;
+  background-color: var(--color-light-dark);
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   border-top: 2px solid #303030;

@@ -1,5 +1,5 @@
 .playlist {
-  background-color: #202020;
+  background-color: var(--color-light-dark);
   padding: 1rem;
   border-radius: 0.5rem;
 }

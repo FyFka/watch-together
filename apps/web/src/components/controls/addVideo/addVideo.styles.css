@@ -1,7 +1,7 @@
 .addVideo {
   position: relative;
   width: 100%;
-  background-color: #202020;
+  background-color: var(--color-light-dark);
   border-radius: 0.5rem;
 }
 
@@ -24,15 +24,15 @@
 .field {
   flex: 5;
   width: 100%;
-  background-color: #0f0f0f;
-  border: 1px solid #21262d;
+  background-color: var(--color-dark);
+  border: 2px solid #21262d;
   padding: 1rem;
   font-size: 0.85rem;
   border-radius: 0.5rem;
 }
 
 .field[data-error="true"] {
-  border-color: #a52a2a;
+  border-color: var(--color-main);
 }
 
 .submit {
@@ -47,10 +47,12 @@
 .error {
   position: absolute;
   top: 100%;
-  text-align: center;
   width: 100%;
-  background-color: #fff;
-  color: #0f0f0f;
+  text-align: center;
+  background-color: var(--color-white);
+  color: var(--color-dark);
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  border-bottom: 3px solid var(--color-dark);
+  padding: 0.25rem 0;
 }
