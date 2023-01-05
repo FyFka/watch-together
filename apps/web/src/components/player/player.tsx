@@ -5,10 +5,10 @@ import { IPlayer } from "types/src/Room";
 import throttle from "lodash/throttle";
 import { subscribeToPause, subscribeToPlay, seekVideo, subscribeToSeek, playVideo, pauseVideo } from "../../api/video";
 import styles from "./player.styles.css";
-import Plyr, { PlyrEvent } from "plyr";
-import Hls from "hls.js";
+import { PlyrEvent } from "plyr";
 import { getPlayerTime } from "../../utils/player";
 import { ACTION_DELAY } from "../../constants";
+import usePlayer from "../../hooks/usePlayer";
 import "plyr/dist/plyr.css";
 
 interface IPlayerProps {
@@ -19,75 +19,6 @@ interface IPlayerProps {
 
 function Player({ src, player, roomId }: IPlayerProps) {
   const HTMLPlayerRoot = useRef<HTMLVideoElement>(null);
-  const webPlayer = useRef<Plyr>(null);
-  const hls = useRef<Hls>(null);
-
-  useEffect(() => {
-    initPlayer();
-
-    const unsubscribeFromPlay = subscribeToPlay(onPlay);
-    const unsubscribeFromPause = subscribeToPause(onPause);
-    const unsubscribeFromSeek = subscribeToSeek(onSeek);
-
-    return () => {
-      unsubscribeFromPlay();
-      unsubscribeFromPause();
-      unsubscribeFromSeek();
-    };
-  }, []);
-
-  const initPlayer = () => {
-    if (Hls.isSupported()) {
-      hls.current = new Hls();
-      window.hls = hls.current;
-    }
-    webPlayer.current = new Plyr(HTMLPlayerRoot.current, {
-      debug: false,
-      controls: ["play", "play-large", "progress", "current-time", "mute", "volume", "pip", "fullscreen"],
-      listeners: {
-        play() {
-          handleTogglePlay();
-          return false;
-        },
-        pause() {
-          handleTogglePlay();
-          return false;
-        },
-        seek(evt: PlyrEvent) {
-          handleSeek(evt);
-          return false;
-        },
-      },
-    });
-  };
-
-  const loadVideo = (source: string) => {
-    if (!webPlayer.current || !HTMLPlayerRoot.current) return;
-    if (Hls.isSupported()) {
-      hls.current.loadSource(source);
-      hls.current.attachMedia(HTMLPlayerRoot.current);
-    } else {
-      webPlayer.current.source = {
-        type: "video",
-        sources: [{ src: source }],
-      };
-    }
-  };
-
-  const onPlay = (evt: IExternalEvent<IPlayer>) => {
-    if (!webPlayer.current || !evt.payload) return;
-    webPlayer.current.play();
-  };
-
-  const onPause = (evt: IExternalEvent<IPlayer>) => {
-    if (!webPlayer.current || !evt.payload) return;
-    webPlayer.current.pause();
-  };
-
-  const onSeek = (evt: IExternalEvent<IPlayer>) => {
-    if (!webPlayer.current || !evt.payload) return;
-    webPlayer.current.currentTime = evt.payload.seconds;
-  };
 
   const handleTogglePlay = useCallback(
     throttle(() => {
@@ -111,13 +42,45 @@ function Player({ src, player, roomId }: IPlayerProps) {
     [roomId]
   );
 
+  const { webPlayer, loadVideo } = usePlayer({
+    root: HTMLPlayerRoot,
+    handlers: { handleTogglePlay, handleSeek },
+  });
+
+  useEffect(() => {
+    const unsubscribeFromPlay = subscribeToPlay(onPlay);
+    const unsubscribeFromPause = subscribeToPause(onPause);
+    const unsubscribeFromSeek = subscribeToSeek(onSeek);
+
+    return () => {
+      unsubscribeFromPlay();
+      unsubscribeFromPause();
+      unsubscribeFromSeek();
+    };
+  }, []);
+
+  const onPlay = (evt: IExternalEvent<IPlayer>) => {
+    if (!webPlayer.current || !evt.payload) return;
+    webPlayer.current.play();
+  };
+
+  const onPause = (evt: IExternalEvent<IPlayer>) => {
+    if (!webPlayer.current || !evt.payload) return;
+    webPlayer.current.pause();
+  };
+
+  const onSeek = (evt: IExternalEvent<IPlayer>) => {
+    if (!webPlayer.current || !evt.payload) return;
+    webPlayer.current.currentTime = evt.payload.seconds;
+  };
+
   useEffect(() => {
     loadVideo(src);
   }, [src]);
 
   return (
     <div className={styles.player}>
-      <video className={styles.libPlayer} ref={HTMLPlayerRoot} />
+      <video className={styles.rootPlayer} ref={HTMLPlayerRoot} controls />
     </div>
   );
 }
