@@ -1,0 +1,13 @@
+.roomPreview {
+  display: block;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  background-color: var(--color-light-dark);
+  transition: transform 0.2s ease-in-out;
+}
+
+.roomPreview:hover {
+  transform: scale(1.05);
+}

@@ -1,15 +1,14 @@
 import { h } from "preact";
-import CreateRoom from "../../components/createRoom/createRoom";
-import RoomList from "../../components/roomList/roomList";
+import Intro from "../../components/intro/intro";
+import LastRooms from "../../components/lastRooms/lastRooms";
 import styles from "./home.styles.css";
 
 function Home() {
   return (
-    <section className={styles.home}>
-      <h1 className={styles.homeIntro}>Watch together</h1>
-      <CreateRoom />
-      <RoomList />
-    </section>
+    <div className={styles.home}>
+      <Intro />
+      <LastRooms />
+    </div>
   );
 }
 

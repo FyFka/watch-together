@@ -4,9 +4,9 @@ import { useEffect, useState } from "preact/compat";
 import { createRoom, subscribeToCreatedRoom } from "../../api/room";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import Button from "../button/button";
-import styles from "./createRoom.styles.css";
+import styles from "./intro.styles.css";
 
-function CreateRoom() {
+function Intro() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,10 +32,18 @@ function CreateRoom() {
   };
 
   return (
-    <Button onClick={handleCreateRoom} className={styles.createRoom}>
-      {loading ? "Creating room..." : "Create room"}
-    </Button>
+    <section className={styles.intro}>
+      <h1 className={styles.title}>Watch together Movies, YouTube, TV shows and more.</h1>
+      <p className={styles.subtitle}>Watch anywhere / anytime.</p>
+      <Button onClick={handleCreateRoom} className={styles.createRoom}>
+        {loading ? "Creating room..." : "CREATE ROOM"}
+      </Button>
+      <div className={styles.concord}>
+        <div className={styles.concordImg} />
+        <div className={styles.concordGradient} />
+      </div>
+    </section>
   );
 }
 
-export default CreateRoom;
+export default Intro;
