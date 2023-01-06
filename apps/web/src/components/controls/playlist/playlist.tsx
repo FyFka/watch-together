@@ -1,25 +1,30 @@
 import { h } from "preact";
+import SourceRow from "./sourceRow/sourceRow";
 import styles from "./playlist.styles.css";
-import VideoRow from "./videoRow/videoRow";
 
 interface IPlaylistProps {
   playlist: string[];
-  selected?: string;
-  onSelectVideo: (video: string) => void;
+  selectedSource: string;
+  onSelectSource: (source: string) => void;
+  onDeleteSource: (source: string) => void;
 }
 
-function Playlist({ playlist, selected, onSelectVideo }: IPlaylistProps) {
+function Playlist({ playlist, selectedSource, onSelectSource, onDeleteSource }: IPlaylistProps) {
   return (
     <div className={styles.playlist}>
       <h3 className={styles.title}>Playlist</h3>
       {playlist.length > 0 && (
-        <ul className={styles.list}>
-          {playlist.map((video) => (
-            <li key={video}>
-              <VideoRow videoSrc={video} onSelectVideo={onSelectVideo} selected={selected} />
-            </li>
+        <div className={styles.sources}>
+          {playlist.map((source) => (
+            <SourceRow
+              key={source}
+              source={source}
+              selectedSource={selectedSource}
+              onSelectSource={onSelectSource}
+              onDeleteSource={onDeleteSource}
+            />
           ))}
-        </ul>
+        </div>
       )}
       {playlist.length === 0 && <h4 className={styles.empty}>No video in playlist</h4>}
     </div>

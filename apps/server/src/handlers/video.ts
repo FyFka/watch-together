@@ -22,6 +22,16 @@ export const handleSelection = async (selected: string, roomId: string) => {
   }
 };
 
+export const handleDeleteSource = async (source: string, roomId: string) => {
+  try {
+    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $pull: { playlist: source } }, { new: true });
+    if (!updatedRoom) return toErrorView("Room doesn't exists");
+    return toPlaylistView(updatedRoom);
+  } catch (err) {
+    return toErrorView("The source has not been deleted. Try again later.");
+  }
+};
+
 export const handleAction = async (seconds: number, isPlaying: boolean, roomId: string) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(

@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { handleAddPlaylist, handleAction, handleSelection } from "../handlers/video";
+import { handleAddPlaylist, handleAction, handleSelection, handleDeleteSource } from "../handlers/video";
 
 const registerVideoEvents = (io: Server, socket: Socket) => {
   socket.on("video::send:playlist-add", async (source: string, roomId: string) => {
@@ -13,6 +13,9 @@ const registerVideoEvents = (io: Server, socket: Socket) => {
   });
   socket.on("video::send:pause", async (seconds: number, roomId: string) => {
     io.in(roomId).emit("video::get:pause", await handleAction(seconds, false, roomId));
+  });
+  socket.on("video::send:delete-source", async (source: string, roomId: string) => {
+    io.in(roomId).emit("video::get:delete-source", await handleDeleteSource(source, roomId));
   });
   socket.on("video::send:seek", async (seconds: number, isPlaying: boolean, roomId: string) => {
     io.in(roomId).emit("video::get:seek", await handleAction(seconds, isPlaying, roomId));

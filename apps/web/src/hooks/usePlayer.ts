@@ -29,7 +29,7 @@ function usePlayer({ root, handlers: { handleTogglePlay, handleSeek } }: IUsePly
 
   const initHls = () => {
     if (Hls.isSupported()) {
-      hls.current = new Hls({ lowLatencyMode: true });
+      hls.current = new Hls({ lowLatencyMode: true, debug: false });
     }
   };
 

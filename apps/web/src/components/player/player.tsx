@@ -80,7 +80,7 @@ function Player({ src, player, roomId }: IPlayerProps) {
 
   return (
     <div className={styles.player}>
-      <video className={styles.rootPlayer} ref={HTMLPlayerRoot} controls />
+      <video className={styles.rootPlayer} ref={HTMLPlayerRoot} />
     </div>
   );
 }

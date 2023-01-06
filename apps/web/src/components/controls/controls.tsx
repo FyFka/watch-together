@@ -3,7 +3,13 @@ import AddVideo from "./addVideo/addVideo";
 import Playlist from "./playlist/playlist";
 import Settings from "./settings/settings";
 import styles from "./controls.styles.css";
-import { selectVideo, subscribeToPlaylist, subscribeToSelect } from "../../api/video";
+import {
+  deleteSource,
+  selectVideo,
+  subscribeToDeleteSource,
+  subscribeToPlaylist,
+  subscribeToSelect,
+} from "../../api/video";
 import { useEffect } from "preact/compat";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { useAppDispatch } from "../../store/hooks";
@@ -19,12 +25,14 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromPlaylist = subscribeToPlaylist(onPlaylist);
+    const unsubscribeFromPlaylist = subscribeToPlaylist(onPlaylistChange);
     const unsubscribeFromSelect = subscribeToSelect(onChangeSelect);
+    const unsubscribeFromDeleteSource = subscribeToDeleteSource(onPlaylistChange);
 
     return () => {
       unsubscribeFromPlaylist();
       unsubscribeFromSelect();
+      unsubscribeFromDeleteSource();
     };
   }, []);
 
@@ -36,7 +44,7 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
     }
   };
 
-  const onPlaylist = (extEvt: IExternalEvent<string[]>) => {
+  const onPlaylistChange = (extEvt: IExternalEvent<string[]>) => {
     if (extEvt.payload) {
       dispatch(setPlaylist(extEvt.payload));
     } else {
@@ -44,8 +52,12 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
     }
   };
 
-  const handleSelectVideo = (src: string) => {
+  const handleSelectSource = (src: string) => {
     selectVideo(src, roomId);
+  };
+
+  const handleDeleteSource = (src: string) => {
+    deleteSource(src, roomId);
   };
 
   return (
@@ -55,7 +67,12 @@ function Controls({ playlist, selected, roomId }: IControlsProps) {
         <Settings />
       </div>
       <div className={styles.right}>
-        <Playlist playlist={playlist} selected={selected} onSelectVideo={handleSelectVideo} />
+        <Playlist
+          playlist={playlist}
+          selectedSource={selected}
+          onSelectSource={handleSelectSource}
+          onDeleteSource={handleDeleteSource}
+        />
       </div>
     </div>
   );

@@ -61,3 +61,15 @@ export const subscribeToSeek = (callback: (extEvt: IExternalEvent<IPlayer>) => v
     socket.off("video::get:seek", callback);
   };
 };
+
+export const deleteSource = (source: string, roomId: string) => {
+  socket.emit("video::send:delete-source", source, roomId);
+};
+
+export const subscribeToDeleteSource = (callback: (extEvt: IExternalEvent<string[]>) => void) => {
+  socket.on("video::get:delete-source", callback);
+
+  return () => {
+    socket.off("video::get:delete-source", callback);
+  };
+};
