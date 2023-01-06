@@ -3,7 +3,7 @@ import Plyr, { PlyrEvent } from "plyr";
 import { useEffect, useRef } from "preact/compat";
 import { MutableRef } from "preact/hooks";
 
-interface IUsePlyr {
+interface IUsePlyrProps {
   root: MutableRef<HTMLVideoElement>;
   handlers: IHandlers;
 }
@@ -13,7 +13,7 @@ interface IHandlers {
   handleSeek: (evt: PlyrEvent) => void;
 }
 
-function usePlayer({ root, handlers: { handleTogglePlay, handleSeek } }: IUsePlyr) {
+function usePlayer({ root, handlers: { handleTogglePlay, handleSeek } }: IUsePlyrProps) {
   const webPlayer = useRef<Plyr>(null);
   const hls = useRef<Hls>(null);
 
@@ -62,10 +62,7 @@ function usePlayer({ root, handlers: { handleTogglePlay, handleSeek } }: IUsePly
 
   const parseDigitalVideo = (source: string) => {
     if (hls.current) hls.current.detachMedia();
-    webPlayer.current.source = {
-      type: "video",
-      sources: [{ src: source }],
-    };
+    webPlayer.current.source = { type: "video", sources: [{ src: source }] };
   };
 
   const loadVideo = (source: string) => {

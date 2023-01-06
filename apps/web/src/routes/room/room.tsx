@@ -25,8 +25,8 @@ function Room({ roomId }: IRoomProps) {
 
     return () => {
       unsubscribeFromJoinRoom();
-      dispatch(setRoom(null));
       leaveRoom(roomId);
+      dispatch(setRoom(null));
     };
   }, []);
 
@@ -43,8 +43,8 @@ function Room({ roomId }: IRoomProps) {
       {room && (
         <Fragment>
           <div className={styles.view}>
-            <Player src={room.selected} player={room.player} roomId={roomId} />
-            <Controls playlist={room.playlist} selected={room.selected} roomId={roomId} />
+            <Player selectedSource={room.selectedSource} player={room.player} roomId={roomId} />
+            <Controls sources={room.sources} selectedSource={room.selectedSource} roomId={roomId} />
           </div>
           <Chat chatHistory={room.chatHistory} />
         </Fragment>

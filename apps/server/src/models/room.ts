@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose";
 
 export interface IRawRoom {
-  createdAt: Date;
+  createdAt: number;
   name: string;
-  playlist: string[];
-  selected: string;
+  sources: string[];
+  selectedSource: string;
   settings: string;
   chatHistory: string[];
   player: IRawPlayer;
@@ -21,10 +21,10 @@ export interface IRawPlayer {
 }
 
 const RoomSchema = new Schema<IRawRoom>({
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Number, required: true },
   name: { type: String, required: true },
-  playlist: [{ type: String, required: true }],
-  selected: { type: String },
+  sources: [{ type: String, required: true }],
+  selectedSource: { type: String },
   settings: { type: String },
   chatHistory: [{ type: String, required: true }],
   player: {

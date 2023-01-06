@@ -1,11 +1,11 @@
-.addVideo {
+.addSource {
   position: relative;
   width: 100%;
   background-color: var(--color-light-dark);
   border-radius: 0.5rem;
 }
 
-.addVideo[data-error="true"] {
+.addSource[data-error="true"] {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   border-bottom-left-radius: 0;

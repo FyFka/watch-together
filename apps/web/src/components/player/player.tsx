@@ -12,12 +12,12 @@ import usePlayer from "../../hooks/usePlayer";
 import "plyr/dist/plyr.css";
 
 interface IPlayerProps {
-  src: string;
+  selectedSource: string;
   player: IPlayer;
   roomId: string;
 }
 
-function Player({ src, player, roomId }: IPlayerProps) {
+function Player({ selectedSource, player, roomId }: IPlayerProps) {
   const HTMLPlayerRoot = useRef<HTMLVideoElement>(null);
 
   const handleTogglePlay = useCallback(
@@ -75,8 +75,8 @@ function Player({ src, player, roomId }: IPlayerProps) {
   };
 
   useEffect(() => {
-    loadVideo(src);
-  }, [src]);
+    loadVideo(selectedSource);
+  }, [selectedSource]);
 
   return (
     <div className={styles.player}>

@@ -9,7 +9,7 @@ export const handleCreateAccount = async () => {
     const { _id, username, password } = await Account.create(generateAccount());
     const err = new Error("Not authorized") as IExtendedError;
     err.data = {
-      evt: "auth::get:account-new",
+      evt: "auth::get:create-account",
       payload: {
         token: sign({ id: _id.toHexString() }, config.JWT_SECRET, {
           expiresIn: "168h",

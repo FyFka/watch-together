@@ -2,28 +2,28 @@ import { h } from "preact";
 import { useEffect, useState } from "preact/compat";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { IRoom } from "types/src/Room";
-import { getRooms, subscribeToRooms } from "../../api/room";
+import { getLastRooms, subscribeToLastRooms } from "../../api/room";
 import Loader from "../loader/loader";
 import RoomPreview from "../roomPreview/roomPreview";
 import styles from "./lastRooms.styles.css";
 
-function RoomList() {
-  const [rooms, setRooms] = useState<IRoom[] | null>(null);
+function LastRooms() {
+  const [lastRooms, setLastRooms] = useState<IRoom[] | null>(null);
 
   useEffect(() => {
-    const unsubscribeFromRooms = subscribeToRooms(onRooms);
-    getRooms();
+    const unsubscribeFromLastRooms = subscribeToLastRooms(onLastRooms);
+    getLastRooms();
 
     return () => {
-      unsubscribeFromRooms();
+      unsubscribeFromLastRooms();
     };
   }, []);
 
-  const onRooms = (extEvt: IExternalEvent<IRoom[]>) => {
+  const onLastRooms = (extEvt: IExternalEvent<IRoom[]>) => {
     if (extEvt.payload) {
-      setRooms(extEvt.payload);
+      setLastRooms(extEvt.payload);
     } else {
-      setRooms([]);
+      setLastRooms([]);
       alert(extEvt.message);
     }
   };
@@ -31,16 +31,16 @@ function RoomList() {
   return (
     <section className={styles.lastRooms}>
       <h2 className={styles.title}>Your last rooms</h2>
-      {Array.isArray(rooms) && (
+      {Array.isArray(lastRooms) && (
         <div className={styles.rooms}>
-          {rooms.map((room) => (
+          {lastRooms.map((room) => (
             <RoomPreview key={room.id} room={room} />
           ))}
         </div>
       )}
-      {!rooms && <Loader />}
+      {!lastRooms && <Loader />}
     </section>
   );
 }
 
-export default RoomList;
+export default LastRooms;

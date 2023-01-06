@@ -4,7 +4,7 @@ import { useEffect } from "preact/compat";
 import { IAccount, IExtendedAccount } from "types/src/Account";
 import { IExternalEvent } from "types/src/ExternalEvent";
 import { getAccount, subscribeToAccount } from "../api/account";
-import { subscribeToNewAccount } from "../api/auth";
+import { subscribeToCreatedAccount } from "../api/auth";
 import { reconnect } from "../api/connection";
 import Home from "../routes/home/home";
 import Room from "../routes/room/room";
@@ -18,12 +18,12 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromNewAccount = subscribeToNewAccount(onNewAccount);
+    const unsubscribeFromCreatedAccount = subscribeToCreatedAccount(onCreatedAccount);
     const unsubscribeFromAccount = subscribeToAccount(onAccount);
     getAccount();
 
     return () => {
-      unsubscribeFromNewAccount();
+      unsubscribeFromCreatedAccount();
       unsubscribeFromAccount();
     };
   }, []);
@@ -36,7 +36,7 @@ function App() {
     }
   };
 
-  const onNewAccount = (extEvt: IExternalEvent<IExtendedAccount>) => {
+  const onCreatedAccount = (extEvt: IExternalEvent<IExtendedAccount>) => {
     if (extEvt.payload) {
       const { token } = extEvt.payload;
       saveToLocalStorage("token", token);

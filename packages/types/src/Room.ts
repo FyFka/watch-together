@@ -2,8 +2,8 @@ export interface IRoom {
   id: string;
   createdAt: number;
   name: string;
-  playlist: string[];
-  selected: string;
+  sources: string[];
+  selectedSource: string;
   chatHistory: IMessage[];
   settings: string;
   player: IPlayer;

@@ -1,20 +1,20 @@
 import Room from "../models/room";
 import { toErrorView } from "../view/error";
-import { toPlayerView, toPlaylistView, toSelectedSource } from "../view/room";
+import { toPlayerView, toSourcesView, toSelectedSource } from "../view/room";
 
 export const handleAddPlaylist = async (source: string, roomId: string) => {
   try {
-    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $push: { playlist: source } }, { new: true });
+    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $push: { sources: source } }, { new: true });
     if (!updatedRoom) return toErrorView("Room doesn't exists");
-    return toPlaylistView(updatedRoom);
+    return toSourcesView(updatedRoom);
   } catch (err) {
     return toErrorView("The playlist has not been added. Try again later.");
   }
 };
 
-export const handleSelection = async (selected: string, roomId: string) => {
+export const handleSelectSource = async (selectedSource: string, roomId: string) => {
   try {
-    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $set: { selected } }, { new: true });
+    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $set: { selectedSource } }, { new: true });
     if (!updatedRoom) return toErrorView("Room doesn't exists");
     return toSelectedSource(updatedRoom);
   } catch (err) {
@@ -24,9 +24,9 @@ export const handleSelection = async (selected: string, roomId: string) => {
 
 export const handleDeleteSource = async (source: string, roomId: string) => {
   try {
-    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $pull: { playlist: source } }, { new: true });
+    const updatedRoom = await Room.findByIdAndUpdate(roomId, { $pull: { sources: source } }, { new: true });
     if (!updatedRoom) return toErrorView("Room doesn't exists");
-    return toPlaylistView(updatedRoom);
+    return toSourcesView(updatedRoom);
   } catch (err) {
     return toErrorView("The source has not been deleted. Try again later.");
   }

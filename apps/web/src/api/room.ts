@@ -30,14 +30,14 @@ export const leaveRoom = (roomId: string) => {
   socket.emit("room::send:leave", roomId);
 };
 
-export const getRooms = () => {
-  socket.emit("room::send:rooms");
+export const getLastRooms = () => {
+  socket.emit("room::send:last-rooms");
 };
 
-export const subscribeToRooms = (callback: (extEvt: IExternalEvent<IRoom[]>) => void) => {
-  socket.on("room::get:rooms", callback);
+export const subscribeToLastRooms = (callback: (extEvt: IExternalEvent<IRoom[]>) => void) => {
+  socket.on("room::get:last-rooms", callback);
 
   return () => {
-    socket.off("room::get:rooms", callback);
+    socket.off("room::get:last-rooms", callback);
   };
 };

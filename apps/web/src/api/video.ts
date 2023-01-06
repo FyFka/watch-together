@@ -14,15 +14,15 @@ export const subscribeToPlaylist = (callback: (extEvt: IExternalEvent<string[]>)
   };
 };
 
-export const selectVideo = (selectedVideo: string, roomId: string) => {
-  socket.emit("video::send:select-video", selectedVideo, roomId);
+export const selectSource = (selectedVideo: string, roomId: string) => {
+  socket.emit("video::send:select-source", selectedVideo, roomId);
 };
 
-export const subscribeToSelect = (callback: (extEvt: IExternalEvent<string>) => void) => {
-  socket.on("video::get:select-video", callback);
+export const subscribeToSelectSource = (callback: (extEvt: IExternalEvent<string>) => void) => {
+  socket.on("video::get:select-source", callback);
 
   return () => {
-    socket.off("video::get:select-video", callback);
+    socket.off("video::get:select-source", callback);
   };
 };
 

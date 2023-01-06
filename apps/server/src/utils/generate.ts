@@ -1,19 +1,21 @@
 import { adjectives, animals, uniqueNamesGenerator } from "unique-names-generator";
+import { IAccountRaw } from "../models/account";
+import { IRawRoom } from "../models/room";
 
-export const generateAccount = () => {
+export const generateAccount = (): IAccountRaw => {
   return {
     username: uniqueNamesGenerator({ dictionaries: [adjectives, animals] }),
-    createdAt: new Date(),
+    createdAt: Date.now(),
     password: (Math.random() + 1).toString(36),
   };
 };
 
-export const generateRoom = (ownerId: string) => {
+export const generateRoom = (ownerId: string): IRawRoom => {
   return {
     createdAt: Date.now(),
     name: uniqueNamesGenerator({ dictionaries: [animals] }),
-    playlist: [],
-    selected: "",
+    sources: [],
+    selectedSource: "",
     settings: "",
     chatHistory: [],
     player: {

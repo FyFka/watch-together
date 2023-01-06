@@ -8,14 +8,14 @@ export const toIdView = (doc: HydratedDocument<unknown>): IExternalEvent<{ id: s
 };
 
 export const toRoomView = (room: HydratedDocument<IRawRoom>): IExternalEvent<IRoom> => {
-  const { _id, createdAt, name, playlist, selected, settings, player, users } = room;
+  const { _id, createdAt, name, sources, selectedSource, settings, player, users } = room;
   return {
     payload: {
       chatHistory: [],
       createdAt: +createdAt,
       name,
-      playlist,
-      selected,
+      sources,
+      selectedSource,
       settings,
       player,
       users,
@@ -26,12 +26,12 @@ export const toRoomView = (room: HydratedDocument<IRawRoom>): IExternalEvent<IRo
 
 export const toRoomsView = (rooms: HydratedDocument<IRawRoom>[]): IExternalEvent<IRoom[]> => {
   return {
-    payload: rooms.map(({ _id, createdAt, name, playlist, selected, settings, player, users }) => ({
+    payload: rooms.map(({ _id, createdAt, name, sources, selectedSource, settings, player, users }) => ({
       chatHistory: [],
       createdAt: +createdAt,
       name,
-      playlist,
-      selected,
+      sources,
+      selectedSource,
       settings,
       player,
       users,
@@ -40,12 +40,12 @@ export const toRoomsView = (rooms: HydratedDocument<IRawRoom>[]): IExternalEvent
   };
 };
 
-export const toPlaylistView = (room: HydratedDocument<{ playlist: string[] }>): IExternalEvent<string[]> => {
-  return { payload: room.playlist };
+export const toSourcesView = (room: HydratedDocument<{ sources: string[] }>): IExternalEvent<string[]> => {
+  return { payload: room.sources };
 };
 
-export const toSelectedSource = (room: HydratedDocument<{ selected: string }>): IExternalEvent<string> => {
-  return { payload: room.selected };
+export const toSelectedSource = (room: HydratedDocument<{ selectedSource: string }>): IExternalEvent<string> => {
+  return { payload: room.selectedSource };
 };
 
 export const toPlayerView = (room: HydratedDocument<{ player: IRawPlayer }>): IExternalEvent<IPlayer> => {

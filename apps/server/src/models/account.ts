@@ -3,12 +3,12 @@ import { Schema, model } from "mongoose";
 export interface IAccountRaw {
   username: string;
   password: string;
-  createdAt: Date;
+  createdAt: number;
 }
 
 const AccountSchema = new Schema<IAccountRaw>({
   username: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Number, required: true },
   password: { type: String, required: true },
 });
 

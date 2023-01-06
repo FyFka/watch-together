@@ -17,12 +17,7 @@ export const handleJoinRoom = async (socket: Socket, roomId: string) => {
   try {
     const room = await Room.findById(roomId);
     if (!room) return toErrorView("Room doesn't exists");
-    await room.updateOne({
-      $addToSet: {
-        "users.online": socket.account.id,
-        "users.members": socket.account.id,
-      },
-    });
+    await room.updateOne({ $addToSet: { "users.online": socket.account.id, "users.members": socket.account.id } });
     socket.join(roomId);
     return toRoomView(room);
   } catch (err) {
@@ -30,21 +25,18 @@ export const handleJoinRoom = async (socket: Socket, roomId: string) => {
   }
 };
 
-export const handleRooms = async (socket: Socket) => {
+export const handleLastRooms = async (socket: Socket) => {
   try {
-    const rooms = await Room.find({ "users.members": socket.account.id });
-    return toRoomsView(rooms);
+    const lastRooms = await Room.find({ "users.members": socket.account.id });
+    return toRoomsView(lastRooms);
   } catch (err) {
-    return toErrorView("The room has not been joined. Try again later.");
+    return toErrorView("The rooms have not been loaded. Try again later.");
   }
 };
 
 export const handleDisconnect = async (socket: Socket) => {
   try {
-    const rooms = await Room.find({ "users.online": socket.account.id });
-    for (const room of rooms) {
-      await room.updateOne({ $pull: { "users.online": socket.account.id } });
-    }
+    await Room.updateMany({ "users.online": socket.account.id }, { $pull: { "users.online": socket.account.id } });
   } catch (_) {
     /* empty */
   }
