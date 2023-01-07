@@ -8,6 +8,11 @@
   --plyr-color-main: var(--color-main);
 }
 
+/* Emoji picker */
+em-emoji-picker {
+  --font-size: 12px;
+}
+
 html,
 body {
   padding: 0;

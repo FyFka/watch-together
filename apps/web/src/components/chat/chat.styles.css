@@ -2,22 +2,31 @@
   position: sticky;
   top: 0;
   right: 0;
+}
+
+.chatContent {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 21rem;
-  width: 21rem;
+  width: 23rem;
+  transition: width 0.15s ease-in-out;
 }
 
-.info {
+.chatHidden {
+  overflow: hidden;
+  width: 0;
+}
+
+.head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 3.5rem;
   padding: 0.5rem 1rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   background-color: var(--color-light-dark);
-  border-bottom: 2px solid #303030;
+  border-bottom: 1px solid #303030;
 }
 
 .history {
@@ -29,25 +38,25 @@
   overflow-x: hidden;
 }
 
-.userMessage {
-  min-height: 4rem;
-  flex: 1 1;
-  background-color: var(--color-light-dark);
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  border-top: 2px solid #303030;
-}
-
 .chatName {
   font-weight: 700;
 }
 
-.inputMessage {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  padding: 0.5rem;
-  border: none;
-  resize: none;
-  font-size: 1rem;
+.toggleHide {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.65rem;
+}
+
+.hideIcon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+.reverse .hideIcon {
+  transform: rotate(180deg);
 }

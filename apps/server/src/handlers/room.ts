@@ -17,7 +17,10 @@ export const handleJoinRoom = async (socket: Socket, roomId: string) => {
   try {
     const room = await Room.findById(roomId);
     if (!room) return toErrorView("Room doesn't exists");
-    await room.updateOne({ $addToSet: { "users.online": socket.account.id, "users.members": socket.account.id } });
+    await room.updateOne(
+      { $addToSet: { "users.online": socket.account.id, "users.members": socket.account.id } },
+      { new: true }
+    );
     socket.join(roomId);
     return toRoomView(room);
   } catch (err) {
