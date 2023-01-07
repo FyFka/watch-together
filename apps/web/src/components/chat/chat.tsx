@@ -11,19 +11,21 @@ interface IChatProps {
 function Chat({ chatHistory }: IChatProps) {
   const [messages, setMessages] = useState<IMessage[]>(chatHistory);
 
-  const handleMessageInput = (evt: h.JSX.TargetedKeyboardEvent<HTMLTextAreaElement>) => {
+  const handleMessageInput = (evt: KeyboardEvent) => {
     if (evt.key === "Enter" && !evt.shiftKey) {
       evt.preventDefault();
-      const message = evt.currentTarget.value;
-      const sentAt = Date.now();
-      const newMessage = {
-        avatar: "https://avatars.githubusercontent.com/u/76843185?v=4",
-        username: "FyFka",
-        message,
-        sentAt,
-      };
-      setMessages([...messages, newMessage]);
-      evt.currentTarget.value = "";
+      if (evt.currentTarget instanceof HTMLTextAreaElement) {
+        const message = evt.currentTarget.value;
+        const sentAt = Date.now();
+        const newMessage = {
+          avatar: "https://avatars.githubusercontent.com/u/76843185?v=4",
+          username: "FyFka",
+          message,
+          sentAt,
+        };
+        setMessages([...messages, newMessage]);
+        evt.currentTarget.value = "";
+      }
     }
   };
 

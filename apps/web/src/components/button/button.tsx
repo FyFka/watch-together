@@ -7,7 +7,7 @@ interface IButtonProps {
   type?: "button" | "submit";
   disabled?: boolean;
   title?: string;
-  onClick?: () => void;
+  onClick?: (evt?: MouseEvent) => void;
 }
 
 function Button({ children, className, ...rest }: IButtonProps) {

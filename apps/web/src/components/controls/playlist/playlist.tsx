@@ -1,6 +1,7 @@
 import { h } from "preact";
 import SourceRow from "./sourceRow/sourceRow";
 import styles from "./playlist.styles.css";
+import isEmpty from "lodash/isEmpty";
 
 interface IPlaylistProps {
   sources: string[];
@@ -13,7 +14,7 @@ function Playlist({ sources, selectedSource, onSelectSource, onDeleteSource }: I
   return (
     <div className={styles.playlist}>
       <h3 className={styles.title}>Playlist</h3>
-      {sources.length > 0 && (
+      {!isEmpty(sources) && (
         <div className={styles.sources}>
           {sources.map((source) => (
             <SourceRow
@@ -26,7 +27,7 @@ function Playlist({ sources, selectedSource, onSelectSource, onDeleteSource }: I
           ))}
         </div>
       )}
-      {sources.length === 0 && <h4 className={styles.empty}>No video in playlist</h4>}
+      {isEmpty(sources) && <h4 className={styles.empty}>No video in playlist</h4>}
     </div>
   );
 }

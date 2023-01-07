@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useState } from "preact/compat";
+import { ChangeEvent, TargetedEvent, useState } from "preact/compat";
 import { addToPlaylist } from "../../../api/video";
 import { VIDEO_EXTENSIONS } from "../../../constants";
 import Button from "../../button/button";
@@ -14,7 +14,7 @@ function AddSource({ sources, roomId }: IAddSourceProps) {
   const [source, setSource] = useState("");
   const [activeError, setActiveError] = useState("");
 
-  const handleSourceSubmit = (evt: h.JSX.TargetedEvent<HTMLFormElement>) => {
+  const handleSourceSubmit = (evt: TargetedEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (activeError) return;
     const clearSource = source.trim();
@@ -34,7 +34,7 @@ function AddSource({ sources, roomId }: IAddSourceProps) {
     return "";
   };
 
-  const handleSourceChange = (evt: h.JSX.TargetedEvent<HTMLInputElement>) => {
+  const handleSourceChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setSource(evt.currentTarget.value);
     const currentError = checkErrors(evt.currentTarget.value);
     if (currentError !== activeError) setActiveError(currentError);

@@ -1,3 +1,4 @@
+import isArray from "lodash/isArray";
 import { h } from "preact";
 import { useEffect, useState } from "preact/compat";
 import { IExternalEvent } from "types/src/ExternalEvent";
@@ -31,14 +32,14 @@ function LastRooms() {
   return (
     <section className={styles.lastRooms}>
       <h2 className={styles.title}>Your last rooms</h2>
-      {Array.isArray(lastRooms) && (
+      {isArray(lastRooms) && (
         <div className={styles.rooms}>
           {lastRooms.map((room) => (
             <RoomPreview key={room.id} room={room} />
           ))}
         </div>
       )}
-      {!lastRooms && <Loader />}
+      {!isArray(lastRooms) && <Loader />}
     </section>
   );
 }
