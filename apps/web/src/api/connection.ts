@@ -8,14 +8,18 @@ const connect = (token: string | null) => {
 export const socket = connect(getFromLocalStorage<string>("token"));
 
 export const subscribeToConnection = (callback: (connectionId: string) => void) => {
-  socket.on("connect", () => callback(socket.id));
-  socket.on("disconnect", () => callback(""));
-  socket.on("reconnect", (socket: Socket) => callback(socket.id));
+  const onConnect = () => callback(socket.id);
+  const onDisconnect = () => callback("");
+  const onReconnect = (socket: Socket) => callback(socket.id);
+
+  socket.on("connect", onConnect);
+  socket.on("disconnect", onDisconnect);
+  socket.on("reconnect", onReconnect);
 
   return () => {
-    socket.off("connection");
-    socket.off("disconnect");
-    socket.off("reconnect");
+    socket.off("connect", onConnect);
+    socket.off("disconnect", onDisconnect);
+    socket.off("reconnect", onReconnect);
   };
 };
 

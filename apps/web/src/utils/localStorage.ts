@@ -9,3 +9,7 @@ export const getFromLocalStorage = <T>(key: string): Partial<T> | null => {
     return null;
   }
 };
+
+export const removeFromLocalStorage = (key: string) => {
+  localStorage.removeItem(key);
+};

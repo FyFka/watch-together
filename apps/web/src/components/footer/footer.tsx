@@ -7,14 +7,14 @@ function Footer() {
   const [connectionId, setConnectionId] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribeFromConnection = subscribeToConnection(handleConnectionChange);
+    const unsubscribeFromConnection = subscribeToConnection(onConnectionChange);
 
     return () => {
       unsubscribeFromConnection();
     };
   }, []);
 
-  const handleConnectionChange = (newConnectionId: string) => {
+  const onConnectionChange = (newConnectionId: string) => {
     setConnectionId(newConnectionId);
   };
 

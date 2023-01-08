@@ -1,5 +1,5 @@
 import Room from "../models/room";
-import { toErrorView } from "../view/error";
+import { toErrorView } from "../view/common";
 import { toPlayerView, toSourcesView, toSelectedSource } from "../view/room";
 
 export const handleAddPlaylist = async (source: string, roomId: string) => {

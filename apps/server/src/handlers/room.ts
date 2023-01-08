@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import Room from "../models/room";
 import { generateRoom } from "../utils/generate";
-import { toErrorView } from "../view/error";
+import { toErrorView, toSuccessView } from "../view/common";
 import { toIdView, toRoomsView, toRoomView } from "../view/room";
 
 export const handleCreateRoom = async (socket: Socket) => {
@@ -40,6 +40,7 @@ export const handleLastRooms = async (socket: Socket) => {
 export const handleDisconnect = async (socket: Socket) => {
   try {
     await Room.updateMany({ "users.online": socket.account.id }, { $pull: { "users.online": socket.account.id } });
+    return toSuccessView();
   } catch (_) {
     /* empty */
   }

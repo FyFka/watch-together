@@ -1,11 +1,16 @@
 import { h, Fragment } from "preact";
 import { Route, Router } from "preact-router";
 import { useEffect } from "preact/compat";
-import { IAccount, IExtendedAccount } from "types/src/Account";
+import { IAccount } from "types/src/Account";
 import { IExternalEvent } from "types/src/ExternalEvent";
-import { getAccount, subscribeToAccount } from "../api/account";
-import { subscribeToCreatedAccount } from "../api/auth";
-import { reconnect } from "../api/connection";
+import {
+  getAccount,
+  subscribeToAccount,
+  subscribeToCreatedAccount,
+  subscribeToCreatedCustomAccount,
+  subscribeToLogin,
+} from "../api/account";
+import { reconnect, subscribeToConnection } from "../api/connection";
 import Home from "../routes/home/home";
 import Room from "../routes/room/room";
 import { setAccount } from "../store/account/accountSlice";
@@ -18,15 +23,26 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribeFromCreatedAccount = subscribeToCreatedAccount(onCreatedAccount);
+    const unsubscribeFromConnection = subscribeToConnection(onConnectionChange);
+    const unsubscribeFromCreatedAccount = subscribeToCreatedAccount(onChangeAccount);
+    const unsubscribeFromCreatedCustomAccount = subscribeToCreatedCustomAccount(onChangeAccount);
+    const unsubscribeFromLogin = subscribeToLogin(onChangeAccount);
     const unsubscribeFromAccount = subscribeToAccount(onAccount);
-    getAccount();
 
     return () => {
+      unsubscribeFromConnection();
+      unsubscribeFromCreatedCustomAccount();
       unsubscribeFromCreatedAccount();
       unsubscribeFromAccount();
+      unsubscribeFromLogin();
     };
   }, []);
+
+  const onConnectionChange = (connectionId: string) => {
+    if (connectionId) {
+      getAccount();
+    }
+  };
 
   const onAccount = (extEvt: IExternalEvent<IAccount>) => {
     if (extEvt.payload) {
@@ -36,11 +52,11 @@ function App() {
     }
   };
 
-  const onCreatedAccount = (extEvt: IExternalEvent<IExtendedAccount>) => {
+  const onChangeAccount = (extEvt: IExternalEvent<string>) => {
     if (extEvt.payload) {
-      const { token } = extEvt.payload;
+      const token = extEvt.payload;
       saveToLocalStorage("token", token);
-      reconnect(extEvt.payload.token);
+      reconnect(token);
     } else {
       alert(extEvt.message);
     }

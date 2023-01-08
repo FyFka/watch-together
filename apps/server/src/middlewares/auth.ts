@@ -1,9 +1,10 @@
 import { Socket } from "socket.io";
-import { handleCreateAccount } from "../handlers/auth";
+
 import { verify } from "jsonwebtoken";
 import config from "../config";
 import Account from "../models/account";
 import { IExtendedError } from "types/src/ExtendedError";
+import { handleCreateAccount } from "../handlers/account";
 
 export const authMiddleware = async (socket: Socket, next: (err?: IExtendedError) => void) => {
   try {
@@ -11,11 +12,7 @@ export const authMiddleware = async (socket: Socket, next: (err?: IExtendedError
     if (id) {
       const account = await Account.findById(id);
       if (account) {
-        socket.account = {
-          username: account.username,
-          password: account.password,
-          id: account._id.toHexString(),
-        };
+        socket.account = { username: account.username, password: account.password, id: account._id.toHexString() };
         return next();
       }
     }

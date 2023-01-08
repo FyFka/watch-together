@@ -3,9 +3,10 @@ import { IAccountRaw } from "../models/account";
 import { IRawRoom } from "../models/room";
 
 export const generateAccount = (): IAccountRaw => {
+  const currentTimestamp = Date.now();
   return {
-    username: uniqueNamesGenerator({ dictionaries: [adjectives, animals] }),
-    createdAt: Date.now(),
+    username: `${uniqueNamesGenerator({ dictionaries: [adjectives, animals] })}_${currentTimestamp}`,
+    createdAt: currentTimestamp,
     password: (Math.random() + 1).toString(36),
   };
 };

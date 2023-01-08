@@ -1,6 +1,12 @@
 import { h } from "preact";
+import { route } from "preact-router";
 import { useState } from "preact/compat";
 import { IAccount } from "types/src/Account";
+import { createCustomAccount, deleteAccount, login, signOut } from "../../../api/account";
+import { reconnect } from "../../../api/connection";
+import { setAccount } from "../../../store/account/accountSlice";
+import { useAppDispatch } from "../../../store/hooks";
+import { removeFromLocalStorage } from "../../../utils/localStorage";
 import styles from "./menu.module.css";
 
 interface IMenuProps {
@@ -8,10 +14,37 @@ interface IMenuProps {
 }
 
 function Menu({ account }: IMenuProps) {
+  const dispatch = useAppDispatch();
   const [revealed, setRevealed] = useState(false);
 
   const handleReveal = () => {
     setRevealed(true);
+  };
+
+  const handleDeleteAccount = () => {
+    deleteAccount();
+    removeFromLocalStorage("token");
+    reconnect(null);
+    dispatch(setAccount(null));
+    route("/");
+  };
+
+  const handleSignOut = () => {
+    signOut();
+    removeFromLocalStorage("token");
+    reconnect(null);
+    dispatch(setAccount(null));
+    route("/");
+  };
+
+  const handleCreateAccount = () => {
+    createCustomAccount("Andrew", "123456");
+    route("/");
+  };
+
+  const handleLogin = () => {
+    login("Andrew", "123456");
+    route("/");
   };
 
   return (
@@ -27,7 +60,7 @@ function Menu({ account }: IMenuProps) {
         </p>
       </div>
       <div className={styles.menuOptions}>
-        <button className={styles.option}>
+        <button onClick={handleCreateAccount} className={styles.option}>
           <svg className={styles.icon} fill="none" viewBox="0 0 24 24">
             <g fill="#aaa">
               <circle cx="15" cy="8" r="4" />
@@ -36,7 +69,7 @@ function Menu({ account }: IMenuProps) {
           </svg>
           <span className={styles.text}>Create an account</span>
         </button>
-        <button className={styles.option}>
+        <button onClick={handleLogin} className={styles.option}>
           <svg className={styles.icon} fill="none" viewBox="0 0 24 24">
             <path
               fill="#aaa"
@@ -46,7 +79,7 @@ function Menu({ account }: IMenuProps) {
           </svg>
           <span className={styles.text}>Login</span>
         </button>
-        <button className={styles.option}>
+        <button onClick={handleDeleteAccount} className={styles.option}>
           <svg className={styles.icon} fill="none" viewBox="0 0 24 24">
             <path
               fill="#aaa"
@@ -57,7 +90,7 @@ function Menu({ account }: IMenuProps) {
           <span className={styles.text}>Delete account</span>
         </button>
       </div>
-      <button className={styles.signOut}>
+      <button onClick={handleSignOut} className={styles.signOut}>
         <svg className={styles.icon} fill="none" viewBox="0 0 24 24">
           <path
             stroke="#aaa"
